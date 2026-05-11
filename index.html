@@ -1,144 +1,521 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Undangan Pernikahan</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f0f0f;
-  color: white;
-  text-align: center;
-}
-
-/* COVER */
-#cover {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 999;
-}
-
-button {
-  padding: 12px 25px;
-  border: none;
-  background: gold;
-  color: black;
-  font-weight: bold;
-  border-radius: 30px;
-}
-
-/* CONTENT */
-.section {
-  padding: 40px 20px;
-}
-
-h1 {
-  font-size: 30px;
-}
-
-.box {
-  background: #1c1c1c;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 15px;
-}
-
-img {
-  width: 90%;
-  border-radius: 15px;
-  margin-top: 10px;
-}
-
-/* ANIMASI */
-.fade {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: 1s;
-}
-.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-</style>
-</head>
-
-<body>
-
-<!-- COVER -->
-<div id="cover">
-  <h2>Undangan Pernikahan</h2>
-  <h1>asep ilyas saeful milah & ai siti rahmawati</h1>
-  <p>Kepada Yth. Tamu Undangan</p>
-  <button onclick="bukaUndangan()">Buka Undangan</button>
-</div>
-
-<!-- MUSIK -->
-<audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
-</audio>
-
-<!-- CONTENT -->
-<div id="content" style="display:none;">
-
-<div class="section fade">
-  <h1>asep ilyas saepul milah & ai siti rahmawati</h1>
-  <p>Dengan hormat mengundang Anda ke acara pernikahan kami</p>
-</div>
-
-<div class="section box fade">
-  <h2>📅 07 juni 2026</h2>
-  <p>10 Januari 2027</p>
-</div>
-
-<div class="section box fade">
-  <h2>📍 https://maps.app.goo.gl/SD2KLbmzPeUiAhzp9</h2>
-  <iframe 
-    src="https://www.google.com/maps?q=-6.2,106.8&output=embed"
-    width="100%" height="200" style="border-radius:10px;">
-  </iframe>
-</div>
-
-<div class="section box fade">
-  <h2>📸 Galeri</h2>
-  <img src="https://picsum.photos/400/300">
-  <img src="https://picsum.photos/401/300">
-</div>
-
-<div class="section box fade">
-  <h2>💌 Ucapan</h2>
-  <p>Terima kasih atas doa dan kehadirannya</p>
-</div>
-
-</div>
-
-<script>
-function bukaUndangan() {
-  document.getElementById("cover").style.display = "none";
-  document.getElementById("content").style.display = "block";
-  document.getElementById("music").play();
-}
-
-/* animasi scroll */
-const faders = document.querySelectorAll(".fade");
-
-window.addEventListener("scroll", () => {
-  faders.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-    if(top < window.innerHeight - 50){
-      el.classList.add("show");
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pondok Nurul Hijrah</title>
+  <meta name="description" content="Website publik pondok pesantren dengan tema putih hijau minimalis, sederhana tapi mewah." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            soft: "0 20px 60px rgba(16, 185, 129, 0.12)",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background:
+        radial-gradient(circle at top right, rgba(16,185,129,.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(5,150,105,.08), transparent 24%),
+        #f7fbf8;
     }
-  });
-});
-</script>
+    .glass {
+      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,.78);
+    }
+  </style>
+</head>
+<body class="text-slate-900 antialiased">
 
+  <header class="sticky top-0 z-50 border-b border-emerald-100/70 glass">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
+      <a href="#beranda" class="flex items-center gap-3">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">
+          ✦
+        </div>
+        <div>
+          <p class="text-sm font-semibold tracking-wide">Pondok Nurul Hijrah</p>
+          <p class="text-xs text-slate-500">Sederhana, hangat, bermakna</p>
+        </div>
+      </a>
+
+      <nav class="hidden items-center gap-8 md:flex">
+        <a href="#beranda" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Beranda</a>
+        <a href="#tentang" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Tentang</a>
+        <a href="#program" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Program</a>
+        <a href="#galeri" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Galeri</a>
+        <a href="#kontak" class="text-sm font-medium text-slate-600 hover:text-emerald-700">Kontak</a>
+      </nav>
+
+      <a href="#kontak" class="hidden md:inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 hover:bg-emerald-700">
+        Daftar / Hubungi
+        <span>→</span>
+      </a>
+
+      <button id="menuBtn" class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-slate-700 shadow-sm md:hidden" aria-label="Buka menu">
+        ☰
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="hidden border-t border-emerald-100 bg-white md:hidden">
+      <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4">
+        <a href="#beranda" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Beranda</a>
+        <a href="#tentang" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Tentang</a>
+        <a href="#program" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Program</a>
+        <a href="#galeri" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Galeri</a>
+        <a href="#kontak" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">Kontak</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="beranda" class="relative overflow-hidden">
+      <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 py-16 md:grid-cols-2 md:px-8 md:py-24">
+        <div class="relative z-10">
+          <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-semibold text-emerald-700 shadow-sm">
+            ✦ Portal Publik Pondok
+          </span>
+
+          <h1 class="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
+            Web pondok yang tenang, bersih, dan terasa mewah.
+          </h1>
+
+          <p class="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
+            Menampilkan informasi utama pondok secara sederhana: profil, program, jadwal, galeri, dan kontak. Cocok untuk fondasi awal sebelum dashboard admin dibangun.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#program" class="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-200 hover:bg-emerald-700">
+              Lihat Program <span>→</span>
+            </a>
+            <a href="#kontak" class="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-200 bg-white px-6 py-3.5 text-sm font-semibold text-emerald-700 shadow-sm hover:bg-emerald-50">
+              Kontak Pondok
+            </a>
+          </div>
+
+          <div class="mt-10 grid max-w-lg grid-cols-3 gap-4">
+            <div class="rounded-3xl border border-emerald-100 bg-white/90 p-4 text-center shadow-sm">
+              <p class="text-xl font-semibold">120+</p>
+              <p class="mt-1 text-xs font-medium text-slate-500">Santri</p>
+            </div>
+            <div class="rounded-3xl border border-emerald-100 bg-white/90 p-4 text-center shadow-sm">
+              <p class="text-xl font-semibold">3 utama</p>
+              <p class="mt-1 text-xs font-medium text-slate-500">Program</p>
+            </div>
+            <div class="rounded-3xl border border-emerald-100 bg-white/90 p-4 text-center shadow-sm">
+              <p class="text-xl font-semibold">Aktif</p>
+              <p class="mt-1 text-xs font-medium text-slate-500">Tahun</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative z-10">
+          <div class="relative overflow-hidden rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-soft md:p-6">
+            <div class="absolute right-0 top-0 h-40 w-40 rounded-full bg-emerald-100 blur-3xl"></div>
+            <div class="relative overflow-hidden rounded-[1.6rem] bg-gradient-to-br from-emerald-50 to-white p-6 md:p-8">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700">Sambutan Pondok</p>
+                  <h3 class="mt-2 text-2xl font-semibold text-slate-900">Suasana yang rapi, adem, dan berkelas.</h3>
+                </div>
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">
+                  ▶
+                </div>
+              </div>
+
+              <div class="mt-8 grid gap-4 sm:grid-cols-2">
+                <div class="rounded-3xl border border-white/80 bg-white p-5 shadow-sm">
+                  <p class="text-sm font-semibold text-slate-900">Pendaftaran</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Dibuka untuk santri baru</p>
+                </div>
+                <div class="rounded-3xl border border-white/80 bg-white p-5 shadow-sm">
+                  <p class="text-sm font-semibold text-slate-900">Jadwal</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Kajian & tahfidz terstruktur</p>
+                </div>
+                <div class="rounded-3xl border border-white/80 bg-white p-5 shadow-sm">
+                  <p class="text-sm font-semibold text-slate-900">Galeri</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Dokumentasi kegiatan pondok</p>
+                </div>
+                <div class="rounded-3xl border border-white/80 bg-white p-5 shadow-sm">
+                  <p class="text-sm font-semibold text-slate-900">Kontak</p>
+                  <p class="mt-2 text-sm leading-6 text-slate-600">Siap dihubungi via WhatsApp</p>
+                </div>
+              </div>
+
+              <div class="mt-6 rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600 text-white">
+                    👥
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-slate-900">Portal publik yang siap dikembangkan</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">
+                      Cocok jadi halaman awal sebelum masuk ke dashboard admin, login, dan fitur CRUD.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tentang" class="px-4 py-20 md:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-700/80">Tentang Pondok</p>
+        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+          Tampilan yang bersih, fokus ke informasi inti
+        </h2>
+        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+          Bagian ini dirancang untuk memberi kesan premium tanpa ramai berlebihan. Informasi tetap jelas dibaca di mobile maupun desktop.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-7xl gap-6 md:grid-cols-3">
+        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="mb-5 h-12 w-12 rounded-2xl bg-emerald-50"></div>
+          <h3 class="text-xl font-semibold">Visi</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Membina santri yang berilmu, beradab, dan siap berkontribusi untuk umat.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="mb-5 h-12 w-12 rounded-2xl bg-emerald-50"></div>
+          <h3 class="text-xl font-semibold">Misi</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Menguatkan hafalan, memperbaiki adab, dan membiasakan disiplin dalam keseharian.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="mb-5 h-12 w-12 rounded-2xl bg-emerald-50"></div>
+          <h3 class="text-xl font-semibold">Nilai</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Sederhana, rapi, bersih, dan penuh penghormatan terhadap ilmu.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="program" class="bg-white px-4 py-20 md:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-700/80">Program Utama</p>
+        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+          Isi halaman publik dibuat ringkas tapi bernilai
+        </h2>
+        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+          Tiga program inti ditampilkan lebih dulu supaya struktur website tetap fokus. Nanti tinggal diperluas saat dashboard admin aktif.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-7xl gap-6 md:grid-cols-3">
+        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">📖</div>
+          <h3 class="mt-6 text-xl font-semibold">Tahfidz Al-Qur'an</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Pembinaan hafalan bertahap, murojaah rutin, dan pendampingan intensif.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">📅</div>
+          <h3 class="mt-6 text-xl font-semibold">Kajian Rutin</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Kajian akhlak, fiqih, adab, dan pembinaan santri dalam suasana teduh.
+          </p>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-200">✦</div>
+          <h3 class="mt-6 text-xl font-semibold">Pendidikan Karakter</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">
+            Fokus pada disiplin, adab, tanggung jawab, dan kebiasaan hidup baik.
+          </p>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-7xl rounded-[2rem] border border-emerald-100 bg-gradient-to-r from-emerald-600 to-emerald-700 p-8 text-white shadow-xl shadow-emerald-100 md:p-10">
+        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.35em] text-emerald-100">Pendaftaran Santri</p>
+            <h3 class="mt-3 text-2xl font-semibold md:text-3xl">
+              Siap menerima calon santri baru dengan alur yang jelas.
+            </h3>
+            <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90">
+              Tombol pendaftaran di halaman publik bisa diarahkan ke form online, WhatsApp, atau halaman khusus setelah backend siap.
+            </p>
+          </div>
+          <a href="#kontak" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
+            Daftar Sekarang <span>→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="jadwal" class="px-4 py-20 md:px-8">
+      <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <div class="mx-auto max-w-2xl text-center">
+            <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-700/80">Jadwal Ringkas</p>
+            <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+              Susunan kegiatan yang mudah dibaca
+            </h2>
+            <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+              Jadwal dibuat simpel agar pengunjung langsung paham aktivitas utama pondok tanpa harus scroll terlalu jauh.
+            </p>
+          </div>
+
+          <div class="mt-10 space-y-4">
+            <div class="flex items-center justify-between rounded-[1.6rem] border border-emerald-100 bg-white px-5 py-4 shadow-sm">
+              <div>
+                <p class="text-sm font-semibold">Senin</p>
+                <p class="mt-1 text-sm text-slate-500">Ba'da Ashar</p>
+              </div>
+              <p class="text-sm font-medium text-emerald-700">Kajian Kitab & Adab</p>
+            </div>
+            <div class="flex items-center justify-between rounded-[1.6rem] border border-emerald-100 bg-white px-5 py-4 shadow-sm">
+              <div>
+                <p class="text-sm font-semibold">Rabu</p>
+                <p class="mt-1 text-sm text-slate-500">Ba'da Maghrib</p>
+              </div>
+              <p class="text-sm font-medium text-emerald-700">Tahfidz & Murojaah</p>
+            </div>
+            <div class="flex items-center justify-between rounded-[1.6rem] border border-emerald-100 bg-white px-5 py-4 shadow-sm">
+              <div>
+                <p class="text-sm font-semibold">Jumat</p>
+                <p class="mt-1 text-sm text-slate-500">Pagi</p>
+              </div>
+              <p class="text-sm font-medium text-emerald-700">Pembinaan Santri & Muhasabah</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-sm md:p-8">
+          <h3 class="text-2xl font-semibold text-slate-900">Info cepat</h3>
+          <div class="mt-6 space-y-4">
+            <div class="flex gap-4 rounded-3xl bg-emerald-50/70 p-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">📍</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Lokasi</p>
+                <p class="mt-1 text-sm leading-6 text-slate-600">Alamat pondok dapat ditampilkan di sini.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 rounded-3xl bg-emerald-50/70 p-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">📞</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Kontak</p>
+                <p class="mt-1 text-sm leading-6 text-slate-600">Nomor WhatsApp dan telepon resmi.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 rounded-3xl bg-emerald-50/70 p-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">🗓️</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Jam operasional</p>
+                <p class="mt-1 text-sm leading-6 text-slate-600">Bisa diisi jadwal layanan administrasi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeri" class="bg-white px-4 py-20 md:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-700/80">Galeri</p>
+        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+          Tampilan visual yang rapi dan elegan
+        </h2>
+        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+          Untuk sementara galeri memakai kartu minimalis. Nanti bisa diganti foto asli, slider, atau lightbox.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="group overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
+          <div class="relative aspect-[4/5] bg-gradient-to-br from-emerald-100 via-white to-emerald-50 p-5">
+            <div class="relative flex h-full flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">01</span>
+                <div class="h-10 w-10 rounded-2xl bg-white/90 shadow-sm"></div>
+              </div>
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">Dokumentasi</p>
+                <h3 class="mt-2 text-xl font-semibold text-slate-900">Kegiatan belajar mengaji</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
+          <div class="relative aspect-[4/5] bg-gradient-to-br from-emerald-100 via-white to-emerald-50 p-5">
+            <div class="relative flex h-full flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">02</span>
+                <div class="h-10 w-10 rounded-2xl bg-white/90 shadow-sm"></div>
+              </div>
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">Dokumentasi</p>
+                <h3 class="mt-2 text-xl font-semibold text-slate-900">Asrama santri yang nyaman</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
+          <div class="relative aspect-[4/5] bg-gradient-to-br from-emerald-100 via-white to-emerald-50 p-5">
+            <div class="relative flex h-full flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">03</span>
+                <div class="h-10 w-10 rounded-2xl bg-white/90 shadow-sm"></div>
+              </div>
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">Dokumentasi</p>
+                <h3 class="mt-2 text-xl font-semibold text-slate-900">Kajian bersama ustadz</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="group overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
+          <div class="relative aspect-[4/5] bg-gradient-to-br from-emerald-100 via-white to-emerald-50 p-5">
+            <div class="relative flex h-full flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">04</span>
+                <div class="h-10 w-10 rounded-2xl bg-white/90 shadow-sm"></div>
+              </div>
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-700">Dokumentasi</p>
+                <h3 class="mt-2 text-xl font-semibold text-slate-900">Suasana halaman pondok</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontak" class="px-4 py-20 md:px-8">
+      <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-[0.95fr_1.05fr]">
+        <div class="rounded-[2rem] border border-emerald-100 bg-white p-8 shadow-sm">
+          <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-700/80">Kontak & Sosial</p>
+          <h3 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
+            Informasi mudah dijangkau
+          </h3>
+          <p class="mt-4 text-sm leading-7 text-slate-600">
+            Bagian ini cocok untuk nomor pondok, lokasi, media sosial, dan tautan pendaftaran. Simpel, tapi tetap kelihatan mahal.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <div class="flex items-center gap-4 rounded-3xl border border-emerald-100 bg-emerald-50/60 px-5 py-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">IG</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Instagram</p>
+                <p class="text-sm text-slate-500">Tautan resmi pondok</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 rounded-3xl border border-emerald-100 bg-emerald-50/60 px-5 py-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">FB</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Facebook</p>
+                <p class="text-sm text-slate-500">Tautan resmi pondok</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 rounded-3xl border border-emerald-100 bg-emerald-50/60 px-5 py-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">YT</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">YouTube</p>
+                <p class="text-sm text-slate-500">Tautan resmi pondok</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 rounded-3xl border border-emerald-100 bg-emerald-50/60 px-5 py-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">WEB</div>
+              <div>
+                <p class="text-sm font-semibold text-slate-900">Website</p>
+                <p class="text-sm text-slate-500">Tautan resmi pondok</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-emerald-100 bg-gradient-to-br from-white to-emerald-50 p-8 shadow-sm">
+          <div class="grid gap-5 md:grid-cols-2">
+            <div class="rounded-3xl bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-slate-900">Alamat</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Isi alamat lengkap pondok di sini.</p>
+            </div>
+            <div class="rounded-3xl bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-slate-900">WhatsApp</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Nomor admin untuk pertanyaan dan pendaftaran.</p>
+            </div>
+            <div class="rounded-3xl bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-slate-900">Jam Layanan</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Senin–Jumat, jam administrasi pondok.</p>
+            </div>
+            <div class="rounded-3xl bg-white p-5 shadow-sm">
+              <p class="text-sm font-semibold text-slate-900">Aksi Cepat</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600">Tombol daftar, lihat jadwal, atau buka peta.</p>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-[2rem] bg-emerald-600 p-6 text-white shadow-lg shadow-emerald-200">
+            <p class="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-100">CTA</p>
+            <h4 class="mt-3 text-2xl font-semibold">
+              Hubungi pondok dengan tampilan yang tenang dan terpercaya.
+            </h4>
+            <p class="mt-3 text-sm leading-7 text-emerald-50/90">
+              Di tahap berikutnya, area ini bisa dihubungkan ke formulir pendaftaran, maps, dan backend admin.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-emerald-100 bg-white px-4 py-8 md:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <p class="text-sm text-slate-500">
+        © 2026 Pondok Nurul Hijrah. Tampilan publik minimalis, hijau-putih, dan elegan.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="#beranda" class="rounded-full border border-emerald-100 px-4 py-2 text-sm text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">Beranda</a>
+        <a href="#tentang" class="rounded-full border border-emerald-100 px-4 py-2 text-sm text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">Tentang</a>
+        <a href="#program" class="rounded-full border border-emerald-100 px-4 py-2 text-sm text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">Program</a>
+        <a href="#galeri" class="rounded-full border border-emerald-100 px-4 py-2 text-sm text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">Galeri</a>
+        <a href="#kontak" class="rounded-full border border-emerald-100 px-4 py-2 text-sm text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="fixed inset-x-0 bottom-0 z-40 border-t border-emerald-100 bg-white/90 px-3 py-2 backdrop-blur-xl md:hidden">
+    <div class="mx-auto grid max-w-7xl grid-cols-5 gap-1">
+      <a href="#beranda" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">Beranda</a>
+      <a href="#tentang" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">Tentang</a>
+      <a href="#program" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">Program</a>
+      <a href="#galeri" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">Galeri</a>
+      <a href="#kontak" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">Kontak</a>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn?.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+      });
+    });
+  </script>
 </body>
 </html>
