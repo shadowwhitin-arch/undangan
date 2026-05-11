@@ -1,599 +1,398 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hidayatul Uluum Awipari</title>
-  <meta name="description" content="Website resmi Pondok Pesantren Hidayatul Uluum Awipari — profil, pendidikan, PPDB, berita, galeri, dan kontak." />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          boxShadow: {
-            soft: "0 18px 60px rgba(16, 185, 129, 0.12)",
-            glow: "0 0 0 1px rgba(16,185,129,.10), 0 18px 50px rgba(16,185,129,.14)",
-          },
-          colors: {
-            brand: {
-              50: "#f2fbf6",
-              100: "#dff5e7",
-              200: "#bfe9ce",
-              300: "#8fd9a8",
-              400: "#58c57c",
-              500: "#22a65a",
-              600: "#17834a",
-              700: "#13683c",
-              800: "#115432",
-              900: "#0d4328",
-            }
-          }
-        }
-      }
-    };
-  </script>
+
+  <!-- Fallback font + system fonts for performance -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Minimal reset + responsive utilities -->
   <style>
-    html { scroll-behavior: smooth; }
-    body {
+    /* Reset / base */
+    :root{
+      --brand:#0f5132;
+      --accent:#198754;
+      --muted:#6c757d;
+      --bg:#ffffff;
+      --max-width:1100px;
+      --container-padding:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#222;
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      -webkit-text-size-adjust:100%;
+    }
+    a{color:var(--brand); text-decoration:none}
+    img{max-width:100%; height:auto; display:block}
+
+    /* Layout container */
+    .container{
+      width:100%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:0 var(--container-padding);
+    }
+
+    /* Navbar (kept structure: brand + links) */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:60;
+      background:rgba(255,255,255,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:var(--brand);
+      font-size:1.05rem;
+    }
+    .brand img{height:40px; width:auto; border-radius:6px; object-fit:cover}
+
+    .nav-links{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .nav-links a{
+      color:#333;
+      font-weight:600;
+      padding:8px 10px;
+      border-radius:6px;
+    }
+    .nav-links a:hover{background:rgba(15,81,50,0.06)}
+
+    /* Mobile toggle */
+    .nav-toggle{
+      display:none;
+      background:transparent;
+      border:0;
+      font-size:1.25rem;
+      padding:6px;
+    }
+
+    /* Hero */
+    .hero{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:72px 16px;
       background:
-        radial-gradient(circle at top right, rgba(34, 197, 94, .10), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(16, 185, 129, .08), transparent 22%),
-        #f7fbf8;
+        linear-gradient(180deg, rgba(15,81,50,0.85), rgba(15,81,50,0.6)),
+        url('assets/banner.jpg') center/cover no-repeat;
+      color:#fff;
+      min-height:56vh;
     }
-    .glass {
-      backdrop-filter: blur(16px);
-      background: rgba(255,255,255,.80);
+    .hero .inner{max-width:900px}
+    .hero h1{font-size:clamp(1.6rem, 4vw, 2.6rem); margin:0 0 8px; line-height:1.05}
+    .hero p{margin:0 0 18px; font-size:clamp(0.95rem, 2.2vw, 1.15rem); opacity:0.95}
+    .btn{
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      border:0;
     }
-    .hero-slide {
-      background:
-        linear-gradient(rgba(13,67,40,.46), rgba(13,67,40,.46)),
-        radial-gradient(circle at top left, rgba(255,255,255,.22), transparent 26%),
-        linear-gradient(135deg, #166534 0%, #15803d 45%, #0f766e 100%);
+    .btn-primary{background:#fff; color:var(--brand)}
+    .btn-ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.18)}
+
+    /* Sections */
+    section{padding:48px 0}
+    section h2{font-size:1.4rem; margin:0 0 12px; text-align:center}
+    section p.lead{max-width:820px; margin:0 auto 18px; text-align:center; color:var(--muted)}
+
+    /* Cards grid for pendidikan */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:18px;
     }
-    .grid-dot {
-      background-image: radial-gradient(rgba(16,185,129,.12) 1px, transparent 1px);
-      background-size: 18px 18px;
+    .card{
+      background:#fff;
+      border-radius:10px;
+      padding:18px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.04);
+      min-height:120px;
     }
+    .card h3{margin:0 0 8px; font-size:1.05rem}
+    .card p{margin:0; color:var(--muted); font-size:0.95rem}
+
+    /* Media / gallery */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:16px;
+    }
+    .gallery img{width:100%; height:160px; object-fit:cover; border-radius:8px}
+
+    /* Contact */
+    .contact-list{display:flex; flex-direction:column; gap:8px; align-items:center}
+    .map-wrap{margin-top:12px; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+
+    /* Footer */
+    footer{background:var(--brand); color:#fff; padding:18px 0; text-align:center; font-size:0.95rem}
+
+    /* Responsive adjustments */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .gallery{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:640px){
+      .nav-links{display:none}
+      .nav-toggle{display:inline-block}
+      .nav-mobile{display:none; flex-direction:column; gap:8px; padding:12px 0}
+      .nav-mobile a{padding:10px; border-radius:8px}
+      .hero{padding:56px 12px; min-height:48vh}
+      .grid{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr}
+      section{padding:36px 0}
+    }
+
+    /* Utility */
+    .text-center{text-align:center}
+    .muted{color:var(--muted)}
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
   </style>
 </head>
-<body class="text-slate-900 antialiased">
+<body>
 
-  <!-- Header -->
-  <header class="sticky top-0 z-50 border-b border-emerald-100/70 glass">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-8">
-      <a href="#beranda" class="flex items-center gap-3 min-w-0">
-        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-soft">
-          <span class="text-lg font-bold">HU</span>
-        </div>
-        <div class="min-w-0">
-          <p class="truncate text-sm font-semibold tracking-wide md:text-base">Hidayatul Uluum Awipari</p>
-          <p class="truncate text-xs text-slate-500">Pesantren | Pendidikan | Adab | Dakwah</p>
-        </div>
+  <!-- Navbar (struktur tetap: brand + links ke section yang sama) -->
+  <header class="navbar" role="banner" aria-label="Navigasi utama">
+    <div class="container nav-inner">
+      <a class="brand" href="#beranda">
+        <!-- Ganti src jika ada logo -->
+        <img src="assets/logo.png" alt="Logo Hidayatul Uluum Awipari" onerror="this.style.display='none'">
+        <span>Hidayatul Uluum Awipari</span>
       </a>
 
-      <nav class="hidden items-center gap-7 md:flex">
-        <a href="#beranda" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">Beranda</a>
-        <a href="#profil" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">Profil</a>
-        <a href="#pendidikan" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">Pendidikan</a>
-        <a href="#ppdb" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">PPDB</a>
-        <a href="#media" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">Media Center</a>
-        <a href="#kontak" class="text-sm font-medium text-slate-600 transition hover:text-brand-700">Kontak</a>
+      <nav role="navigation" aria-label="Menu utama">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile">
+          ☰
+          <span class="sr-only">Buka menu</span>
+        </button>
+
+        <div class="nav-links" id="navDesktop">
+          <a href="#profil">Profil</a>
+          <a href="#pendidikan">Pendidikan</a>
+          <a href="#ppdb">PPDB</a>
+          <a href="#media">Media</a>
+          <a href="#kontak">Kontak</a>
+        </div>
+
+        <!-- Mobile menu (hidden by default) -->
+        <div id="navMobile" class="nav-mobile container" aria-hidden="true">
+          <a href="#profil">Profil</a>
+          <a href="#pendidikan">Pendidikan</a>
+          <a href="#ppdb">PPDB</a>
+          <a href="#media">Media</a>
+          <a href="#kontak">Kontak</a>
+        </div>
       </nav>
-
-      <div class="hidden md:flex items-center gap-3">
-        <a href="#ppdb" class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-5 py-3 text-sm font-semibold text-brand-700 shadow-sm transition hover:bg-brand-50">
-          PPDB
-        </a>
-        <a href="#ppdb" class="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-700">
-          Pendaftaran Santri Baru
-        </a>
-      </div>
-
-      <button id="menuBtn" class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-100 bg-white text-slate-700 shadow-sm md:hidden" aria-label="Buka menu">
-        ☰
-      </button>
-    </div>
-
-    <div id="mobileMenu" class="hidden border-t border-emerald-100 bg-white md:hidden">
-      <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4">
-        <a href="#beranda" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">Beranda</a>
-        <a href="#profil" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">Profil</a>
-        <a href="#pendidikan" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">Pendidikan</a>
-        <a href="#ppdb" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">PPDB</a>
-        <a href="#media" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">Media Center</a>
-        <a href="#kontak" class="rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-brand-700">Kontak</a>
-        <a href="#ppdb" class="mt-2 rounded-2xl bg-brand-600 px-4 py-3 text-center text-sm font-semibold text-white hover:bg-brand-700">Pendaftaran Santri Baru</a>
-      </div>
     </div>
   </header>
 
+  <!-- Hero / Beranda (ID tetap: beranda) -->
   <main>
-    <!-- Hero / Banner -->
-    <section id="beranda" class="relative overflow-hidden">
-      <div class="absolute inset-0 grid-dot opacity-40"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,.16),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(5,150,105,.08),transparent_30%)]"></div>
-
-      <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 md:grid-cols-2 md:px-8 md:py-20">
-        <div class="relative z-10">
-          <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-2 text-xs font-semibold text-brand-700 shadow-sm">
-            ✦ Website Resmi Pesantren
-          </span>
-          <h1 class="mt-6 max-w-xl text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
-            Hidayatul Uluum Awipari
-          </h1>
-          <p class="mt-5 max-w-xl text-base leading-8 text-slate-600 md:text-lg">
-            Portal resmi pesantren yang menyajikan profil, pendidikan, PPDB, berita terbaru, galeri kegiatan, dan informasi kontak dalam tampilan putih-hijau yang sederhana, rapi, dan mewah.
-          </p>
-
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#ppdb" class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-700">
-              Pendaftaran Santri Baru
-              <span>→</span>
-            </a>
-            <a href="#profil" class="inline-flex items-center justify-center gap-2 rounded-full border border-brand-200 bg-white px-6 py-3.5 text-sm font-semibold text-brand-700 shadow-sm transition hover:bg-brand-50">
-              Lihat Profil
-            </a>
-          </div>
-
-          <div class="mt-10 grid max-w-xl grid-cols-3 gap-4">
-            <div class="rounded-3xl border border-emerald-100 bg-white p-4 text-center shadow-sm">
-              <p class="text-xl font-semibold text-slate-900">Profil</p>
-              <p class="mt-1 text-xs font-medium text-slate-500">Terbuka untuk publik</p>
-            </div>
-            <div class="rounded-3xl border border-emerald-100 bg-white p-4 text-center shadow-sm">
-              <p class="text-xl font-semibold text-slate-900">PPDB</p>
-              <p class="mt-1 text-xs font-medium text-slate-500">Pendaftaran online</p>
-            </div>
-            <div class="rounded-3xl border border-emerald-100 bg-white p-4 text-center shadow-sm">
-              <p class="text-xl font-semibold text-slate-900">Berita</p>
-              <p class="mt-1 text-xs font-medium text-slate-500">Update kegiatan</p>
-            </div>
-          </div>
+    <section id="beranda" class="hero" role="region" aria-label="Beranda">
+      <div class="inner container">
+        <h1>Hidayatul Uluum Awipari</h1>
+        <p class="lead">Pesantren — Pendidikan — Pembinaan Akhlak — Tahfidz Al Quran</p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap">
+          <a class="btn btn-primary" href="#ppdb" aria-label="Daftar PPDB">Pendaftaran Santri Baru</a>
+          <a class="btn btn-ghost" href="#kontak" aria-label="Kontak dan Lokasi">Kontak & Lokasi</a>
         </div>
+      </div>
+    </section>
 
-        <div class="relative z-10">
-          <div class="rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-soft md:p-6">
-            <div class="hero-slide relative overflow-hidden rounded-[1.6rem] p-6 text-white md:p-8">
-              <div class="absolute inset-0 opacity-20"
-                style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 22%), radial-gradient(circle at 80% 10%, white 0, transparent 18%), radial-gradient(circle at 70% 80%, white 0, transparent 20%);">
-              </div>
+    <!-- Profil (ID tetap: profil) -->
+    <section id="profil" role="region" aria-label="Profil pesantren">
+      <div class="container">
+        <h2>Profil Pesantren</h2>
+        <p class="lead">Hidayatul Uluum Awipari adalah lembaga pendidikan Islam yang mengedepankan pengajaran agama, akhlak, dan penguatan hafalan Al-Qur'an. Kami menyediakan jenjang pendidikan formal dan diniyah untuk berbagai usia.</p>
 
-              <div class="relative flex items-center justify-between">
-                <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">Banner Pesantren</p>
-                  <h2 class="mt-2 text-2xl font-semibold md:text-3xl">Suasana belajar yang teduh, terarah, dan beradab.</h2>
-                </div>
-                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-2xl backdrop-blur-sm">✧</div>
-              </div>
-
-              <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                <div class="rounded-3xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur-sm">
-                  <p class="text-sm font-semibold text-white">Foto Kegiatan Santri</p>
-                  <p class="mt-2 text-sm leading-6 text-emerald-50/90">Mengaji, tahfidz, musyawarah, dan pembinaan adab.</p>
-                </div>
-                <div class="rounded-3xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur-sm">
-                  <p class="text-sm font-semibold text-white">Masjid & Fasilitas</p>
-                  <p class="mt-2 text-sm leading-6 text-emerald-50/90">Area ibadah, asrama, kelas, dan sarana belajar.</p>
-                </div>
-              </div>
-
-              <div class="mt-6 rounded-3xl bg-white/10 p-5 ring-1 ring-white/15 backdrop-blur-sm">
-                <p class="text-sm font-semibold text-white">“Mendidik dengan ilmu, membentuk dengan adab.”</p>
-                <p class="mt-2 text-sm leading-6 text-emerald-50/90">Banner ini nantinya bisa diganti slider foto asli pondok.</p>
-              </div>
-            </div>
+        <div style="display:flex; gap:18px; align-items:center; justify-content:center; margin-top:18px; flex-wrap:wrap">
+          <img src="assets/profil-1.jpg" alt="Kegiatan santri" width="360" height="220" loading="lazy" style="border-radius:10px; box-shadow:0 8px 20px rgba(16,24,40,0.06)">
+          <div style="max-width:480px">
+            <h3 style="margin:0 0 8px">Visi & Misi</h3>
+            <p class="muted" style="margin:0">Mewujudkan generasi berakhlak mulia, berilmu, dan berdaya saing melalui pendidikan agama dan umum yang seimbang.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Sambutan -->
-    <section class="px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Sambutan Pimpinan</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Pesan singkat dari pengasuh pesantren</h2>
-      </div>
+    <!-- Pendidikan (ID tetap: pendidikan) -->
+    <section id="pendidikan" role="region" aria-label="Program pendidikan">
+      <div class="container">
+        <h2>Pendidikan</h2>
+        <p class="lead">Program pendidikan kami meliputi pendidikan diniyah, tahfidz, dan kurikulum umum yang terintegrasi.</p>
 
-      <div class="mx-auto mt-10 max-w-5xl rounded-[2rem] border border-emerald-100 bg-white p-8 shadow-sm md:p-10">
-        <div class="grid gap-8 md:grid-cols-[220px_1fr] md:items-center">
-          <div class="mx-auto flex h-52 w-52 items-center justify-center rounded-[2rem] bg-gradient-to-br from-emerald-100 to-white p-5 shadow-inner">
-            <div class="flex h-full w-full items-center justify-center rounded-[1.5rem] border border-emerald-100 bg-white text-center">
-              <div>
-                <p class="text-sm font-semibold text-brand-700">Foto Kyai</p>
-                <p class="mt-1 text-xs text-slate-500">Placeholder</p>
-              </div>
-            </div>
-          </div>
+        <div class="grid" role="list">
+          <article class="card" role="listitem" aria-label="Pendidikan Diniyah">
+            <h3>Pendidikan Diniyah</h3>
+            <p>Pengajaran kitab kuning, aqidah, fiqh, dan adab dengan metode sanad dan pengajaran berjenjang.</p>
+          </article>
 
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.25em] text-brand-700">Assalamu’alaikum warahmatullahi wabarakatuh</p>
-            <p class="mt-4 text-base leading-8 text-slate-600">
-              Selamat datang di Hidayatul Uluum Awipari. Semoga website ini menjadi pintu informasi yang memudahkan masyarakat mengenal pesantren kami, program pendidikan, serta kegiatan santri sehari-hari. Kami berikhtiar menanamkan ilmu, akhlak, dan kedisiplinan agar para santri tumbuh menjadi generasi yang bermanfaat bagi umat.
-            </p>
-            <p class="mt-6 text-sm font-semibold text-slate-900">Pengasuh / Pimpinan Pesantren</p>
-          </div>
+          <article class="card" role="listitem" aria-label="Program Tahfidz">
+            <h3>Tahfidz</h3>
+            <p>Program hafalan Al-Qur'an dengan target dan metode muroja'ah harian serta pembinaan hafalan.</p>
+          </article>
+
+          <article class="card" role="listitem" aria-label="Kurikulum Umum">
+            <h3>Kurikulum Umum</h3>
+            <p>Pelajaran umum sesuai jenjang, keterampilan hidup, dan pembinaan karakter untuk kesiapan masa depan.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- Keunggulan -->
-    <section class="bg-white px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Keunggulan</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Mengapa memilih pesantren ini?</h2>
-        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-          Nilai utama yang ditonjolkan: kualitas pembinaan, lingkungan yang aman, dan pendidikan yang terarah.
-        </p>
-      </div>
+    <!-- PPDB (ID tetap: ppdb) -->
+    <section id="ppdb" role="region" aria-label="Informasi PPDB">
+      <div class="container">
+        <h2>PPDB</h2>
+        <p class="lead">Informasi pendaftaran santri baru: alur pendaftaran, persyaratan, biaya, dan jadwal seleksi.</p>
 
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 md:grid-cols-4">
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-soft">01</div>
-          <h3 class="mt-6 text-xl font-semibold text-slate-900">Pembinaan Adab</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Fokus membentuk karakter, sopan santun, dan disiplin santri.</p>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:12px; flex-wrap:wrap">
+          <a class="btn btn-primary" href="#kontak" aria-label="Hubungi untuk pendaftaran">Hubungi Panitia</a>
+          <a class="btn" style="background:#f8f9fa; color:#111; border-radius:8px; padding:10px 14px" href="#ppdb-form" aria-label="Lihat persyaratan">Lihat Persyaratan</a>
         </div>
 
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-soft">02</div>
-          <h3 class="mt-6 text-xl font-semibold text-slate-900">Lingkungan Nyaman</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Asrama, masjid, dan kelas dirancang mendukung suasana belajar.</p>
-        </div>
-
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-soft">03</div>
-          <h3 class="mt-6 text-xl font-semibold text-slate-900">Pendidikan Terstruktur</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Kegiatan harian, pekanan, dan tahunan tersusun rapi.</p>
-        </div>
-
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-soft">04</div>
-          <h3 class="mt-6 text-xl font-semibold text-slate-900">Informasi Transparan</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">PPDB, berita, dan kontak mudah diakses oleh publik.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Berita -->
-    <section class="px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Berita / Kegiatan Terbaru</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Update aktivitas santri dan agenda pondok</h2>
-        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-          Berita bisa berisi pengumuman, prestasi, kajian, lomba, atau kegiatan harian santri.
-        </p>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-3">
-        <article class="overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
-          <div class="h-52 bg-gradient-to-br from-emerald-100 to-white"></div>
-          <div class="p-6">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-brand-700">Agenda</p>
-            <h3 class="mt-2 text-xl font-semibold">Pembukaan Tahun Ajaran Baru</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">Kegiatan pembukaan tahun ajaran baru bersama pimpinan dan seluruh santri.</p>
-          </div>
-        </article>
-
-        <article class="overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
-          <div class="h-52 bg-gradient-to-br from-emerald-100 to-white"></div>
-          <div class="p-6">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-brand-700">Prestasi</p>
-            <h3 class="mt-2 text-xl font-semibold">Santri Raih Juara Musabaqah</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">Dokumentasi prestasi santri pada perlombaan keislaman tingkat daerah.</p>
-          </div>
-        </article>
-
-        <article class="overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
-          <div class="h-52 bg-gradient-to-br from-emerald-100 to-white"></div>
-          <div class="p-6">
-            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-brand-700">Pengumuman</p>
-            <h3 class="mt-2 text-xl font-semibold">Jadwal Kajian Pekanan</h3>
-            <p class="mt-3 text-sm leading-7 text-slate-600">Informasi jadwal pengajian, kegiatan, dan agenda rutin pondok pesantren.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Profil Pesantren -->
-    <section id="profil" class="bg-white px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Profil Pesantren</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Tentang Hidayatul Uluum Awipari</h2>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-2">
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Sejarah</h3>
-          <p class="mt-4 text-sm leading-8 text-slate-600">
-            Sejarah pendirian pesantren dapat ditulis di bagian ini, termasuk latar belakang berdiri, perjuangan awal, dan visi perjuangan pendiri dalam membina masyarakat melalui pendidikan Islam.
-          </p>
-
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-3xl bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-900">Visi</p>
-              <p class="mt-2 text-sm leading-6 text-slate-600">Menjadi pesantren unggul dalam ilmu, adab, dan pengabdian.</p>
-            </div>
-            <div class="rounded-3xl bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-900">Misi</p>
-              <p class="mt-2 text-sm leading-6 text-slate-600">Mendidik santri berakhlak, berilmu, dan siap mengabdi.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Struktur Organisasi</h3>
-          <div class="mt-5 space-y-4">
-            <div class="flex items-center justify-between rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <span class="font-medium text-slate-700">Kyai / Pengasuh</span>
-              <span class="text-sm text-brand-700">Data diisi nanti</span>
-            </div>
-            <div class="flex items-center justify-between rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <span class="font-medium text-slate-700">Wakil Pengasuh</span>
-              <span class="text-sm text-brand-700">Data diisi nanti</span>
-            </div>
-            <div class="flex items-center justify-between rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <span class="font-medium text-slate-700">Pengurus</span>
-              <span class="text-sm text-brand-700">Data diisi nanti</span>
-            </div>
-            <div class="flex items-center justify-between rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <span class="font-medium text-slate-700">Ustadz / Ustadzah</span>
-              <span class="text-sm text-brand-700">Data diisi nanti</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mx-auto mt-6 grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold">Masjid</h3>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Tempat ibadah dan kegiatan keagamaan santri.</p>
-        </div>
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold">Asrama</h3>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Hunian santri yang nyaman dan tertib.</p>
-        </div>
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold">Kelas</h3>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Ruang belajar untuk pendidikan formal/nonformal.</p>
-        </div>
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-semibold">Perpustakaan & Lapangan</h3>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Sarana literasi, olahraga, dan pengembangan santri.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pendidikan -->
-    <section id="pendidikan" class="px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Unit Pendidikan & Kurikulum</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Pendidikan</h2>
-        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-          Bagian pendidikan nanti bisa kamu isi sendiri sesuai jenjang, metode, dan kurikulum pesantren.
-        </p>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 md:grid-cols-3">
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Pendidikan Diniyah</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Isi nanti: program kitab, akidah, fiqih, akhlak, dan lainnya.</p>
-        </div>
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Tahfidz</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Isi nanti: target hafalan, metode, dan jadwal murojaah.</p>
-        </div>
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Kurikulum Umum</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">Isi nanti: materi umum, kelas, jenjang, dan keterampilan.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PPDB -->
-    <section id="ppdb" class="bg-white px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">PPDB</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Informasi Penerimaan Santri Baru</h2>
-        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-          Calon santri dan wali bisa melihat alur, syarat, biaya, dan formulir pendaftaran secara jelas.
-        </p>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-2">
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Alur Pendaftaran</h3>
-          <ol class="mt-5 space-y-4">
-            <li class="rounded-2xl bg-white px-5 py-4 shadow-sm"><span class="font-semibold text-brand-700">1.</span> Isi formulir pendaftaran.</li>
-            <li class="rounded-2xl bg-white px-5 py-4 shadow-sm"><span class="font-semibold text-brand-700">2.</span> Unggah dokumen persyaratan.</li>
-            <li class="rounded-2xl bg-white px-5 py-4 shadow-sm"><span class="font-semibold text-brand-700">3.</span> Verifikasi data oleh admin.</li>
-            <li class="rounded-2xl bg-white px-5 py-4 shadow-sm"><span class="font-semibold text-brand-700">4.</span> Konfirmasi dan daftar ulang.</li>
+        <!-- Contoh ringkasan alur (tetap sederhana agar struktur tidak berubah) -->
+        <div style="margin-top:18px; max-width:820px; margin-left:auto; margin-right:auto; color:var(--muted); text-align:center">
+          <ol style="text-align:left; padding-left:18px; margin:0 0 8px">
+            <li>Isi formulir pendaftaran (online / offline).</li>
+            <li>Verifikasi berkas dan wawancara singkat.</li>
+            <li>Pengumuman hasil dan daftar ulang.</li>
           </ol>
         </div>
+      </div>
+    </section>
 
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Biaya & Syarat</h3>
-          <div class="mt-5 space-y-4">
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">Biaya Pendidikan</p>
-              <p class="mt-1 text-sm text-slate-600">SPP, uang pangkal, seragam, dan lainnya bisa diisi di sini.</p>
-            </div>
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">Syarat Pendaftaran</p>
-              <p class="mt-1 text-sm text-slate-600">Fotokopi KK, akta, ijazah, pas foto, dan berkas lain.</p>
-            </div>
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">Formulir Online / Dashboard</p>
-              <p class="mt-1 text-sm text-slate-600">Tautan portal mandiri untuk calon santri baru.</p>
-            </div>
-          </div>
+    <!-- Media (ID tetap: media) -->
+    <section id="media" role="region" aria-label="Galeri dan berita">
+      <div class="container">
+        <h2>Media Center</h2>
+        <p class="lead">Galeri kegiatan, video pengajian, dan pengumuman resmi pesantren.</p>
 
-          <a href="#kontak" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-700">
-            Buka Form Pendaftaran
-            <span>→</span>
-          </a>
+        <div class="gallery" aria-hidden="false">
+          <img src="assets/gallery-1.jpg" alt="Kegiatan 1" loading="lazy">
+          <img src="assets/gallery-2.jpg" alt="Kegiatan 2" loading="lazy">
+          <img src="assets/gallery-3.jpg" alt="Kegiatan 3" loading="lazy">
+        </div>
+
+        <div style="text-align:center; margin-top:12px">
+          <a class="btn" href="#media" style="background:#f1f3f5; color:#111; border-radius:8px; padding:8px 12px">Lihat Semua Media</a>
         </div>
       </div>
     </section>
 
-    <!-- Galeri & Berita -->
-    <section id="media" class="px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Media Center</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Galeri & Berita</h2>
-        <p class="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-          Dokumentasi kegiatan, berita pondok, artikel, dan pengumuman resmi ditempatkan di sini.
-        </p>
-      </div>
+    <!-- Kontak (ID tetap: kontak) -->
+    <section id="kontak" role="region" aria-label="Kontak dan lokasi">
+      <div class="container">
+        <h2>Kontak & Lokasi</h2>
+        <p class="lead">Hubungi kami untuk informasi lebih lanjut atau pendaftaran.</p>
 
-      <div class="mx-auto mt-12 grid max-w-7xl gap-6 lg:grid-cols-2">
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Galeri Foto / Video</h3>
-          <div class="mt-5 grid grid-cols-2 gap-4">
-            <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-100 to-white"></div>
-            <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-100 to-white"></div>
-            <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-100 to-white"></div>
-            <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-emerald-100 to-white"></div>
-          </div>
+        <div class="contact-list">
+          <div><strong>Alamat:</strong> Awipari, Tasikmalaya, Jawa Barat</div>
+          <div><strong>Telp / WA:</strong> 08xx-xxxx-xxxx</div>
+          <div><strong>Email:</strong> tu@hidayatululuum.sch.id</div>
         </div>
 
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Blog / Berita</h3>
-          <div class="mt-5 space-y-4">
-            <article class="rounded-2xl bg-white px-5 py-4 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">Pengumuman</p>
-              <p class="mt-2 font-semibold text-slate-900">Jadwal Kegiatan Bulanan</p>
-              <p class="mt-1 text-sm text-slate-600">Info agenda terbaru pesantren.</p>
-            </article>
-            <article class="rounded-2xl bg-white px-5 py-4 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">Keislaman</p>
-              <p class="mt-2 font-semibold text-slate-900">Artikel Pendidikan Akhlak</p>
-              <p class="mt-1 text-sm text-slate-600">Tulisan keislaman dan pembinaan santri.</p>
-            </article>
-            <article class="rounded-2xl bg-white px-5 py-4 shadow-sm">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-700">Prestasi</p>
-              <p class="mt-2 font-semibold text-slate-900">Santri Berprestasi</p>
-              <p class="mt-1 text-sm text-slate-600">Kabar prestasi dan penghargaan santri.</p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Kontak -->
-    <section id="kontak" class="bg-white px-4 py-20 md:px-8">
-      <div class="mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold uppercase tracking-[0.35em] text-brand-700/80">Kontak & Lokasi</p>
-        <h2 class="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">Hubungi dan temukan pesantren</h2>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-7xl gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div class="rounded-[2rem] border border-emerald-100 bg-[#f9fefb] p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Alamat Lengkap</h3>
-          <p class="mt-3 text-sm leading-7 text-slate-600">
-            Awipari, Kota Tasikmalaya, Jawa Barat. Alamat lengkap bisa kamu isi sesuai data resmi pesantren.
-          </p>
-
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="rounded-3xl bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-900">Telepon / WhatsApp</p>
-              <p class="mt-2 text-sm leading-6 text-slate-600">08xx-xxxx-xxxx</p>
-            </div>
-            <div class="rounded-3xl bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-900">Email / TU</p>
-              <p class="mt-2 text-sm leading-6 text-slate-600">tu@hidayatululuum.sch.id</p>
-            </div>
-          </div>
-
-          <div class="mt-6 overflow-hidden rounded-[2rem] border border-emerald-100 bg-white shadow-sm">
-            <div class="flex h-80 items-center justify-center bg-gradient-to-br from-emerald-100 to-white text-center">
-              <div>
-                <p class="text-sm font-semibold text-brand-700">Google Maps</p>
-                <p class="mt-1 text-sm text-slate-500">Embed peta lokasi bisa ditempatkan di sini</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="rounded-[2rem] border border-emerald-100 bg-white p-7 shadow-sm">
-          <h3 class="text-xl font-semibold text-slate-900">Kontak Cepat</h3>
-          <div class="mt-5 space-y-4">
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">Admin / TU</p>
-              <p class="mt-1 text-sm text-slate-600">Untuk informasi pendaftaran, administrasi, dan jadwal kunjungan.</p>
-            </div>
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">WhatsApp Resmi</p>
-              <p class="mt-1 text-sm text-slate-600">Tombol chat langsung bisa dihubungkan ke nomor resmi pondok.</p>
-            </div>
-            <div class="rounded-2xl bg-emerald-50/70 px-5 py-4">
-              <p class="font-semibold text-slate-800">Lokasi</p>
-              <p class="mt-1 text-sm text-slate-600">Integrasi Google Maps agar mudah ditemukan pengunjung.</p>
-            </div>
-          </div>
+        <div class="map-wrap" style="margin-top:12px">
+          <!-- Embed Google Maps (responsive) -->
+          <iframe
+            title="Peta Lokasi Hidayatul Uluum Awipari"
+            src="https://maps.google.com/maps?q=Awipari%20Tasikmalaya&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%" height="300" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-emerald-100 bg-white px-4 py-10 md:px-8">
-    <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
-      <div>
-        <p class="text-lg font-semibold text-slate-900">Hidayatul Uluum Awipari</p>
-        <p class="mt-3 text-sm leading-7 text-slate-600">
-          Website resmi pesantren dengan tampilan minimalis putih-hijau, modern, dan elegan.
-        </p>
+  <footer role="contentinfo">
+    <div class="container">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+        <div>© <span id="year"></span> Hidayatul Uluum Awipari</div>
+        <div style="opacity:0.95">Follow: <strong style="margin-left:6px">YouTube</strong> • <strong>Instagram</strong> • <strong>Facebook</strong></div>
       </div>
-
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-brand-700">Quick Links</p>
-        <div class="mt-4 flex flex-col gap-2 text-sm">
-          <a href="#ppdb" class="text-slate-600 hover:text-brand-700">PPDB</a>
-          <a href="#kontak" class="text-slate-600 hover:text-brand-700">Kontak</a>
-          <a href="#profil" class="text-slate-600 hover:text-brand-700">Profil</a>
-          <a href="#media" class="text-slate-600 hover:text-brand-700">Berita & Galeri</a>
-        </div>
-      </div>
-
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-brand-700">Media Sosial</p>
-        <div class="mt-4 flex flex-col gap-2 text-sm">
-          <a href="#" class="text-slate-600 hover:text-brand-700">YouTube</a>
-          <a href="#" class="text-slate-600 hover:text-brand-700">Instagram</a>
-          <a href="#" class="text-slate-600 hover:text-brand-700">Facebook</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="mx-auto mt-8 flex max-w-7xl flex-col gap-3 border-t border-emerald-100 pt-6 md:flex-row md:items-center md:justify-between">
-      <p class="text-sm text-slate-500">© 2026 Hidayatul Uluum Awipari. All rights reserved.</p>
-      <p class="text-sm text-slate-500">Dibuat dengan tema putih hijau minimalis.</p>
     </div>
   </footer>
 
-  <!-- Mobile bottom nav -->
-  <div class="fixed inset-x-0 bottom-0 z-40 border-t border-emerald-100 bg-white/90 px-3 py-2 backdrop-blur-xl md:hidden">
-    <div class="mx-auto grid max-w-7xl grid-cols-5 gap-1">
-      <a href="#beranda" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-brand-700">Beranda</a>
-      <a href="#profil" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-brand-700">Profil</a>
-      <a href="#pendidikan" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-brand-700">Pendidikan</a>
-      <a href="#ppdb" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-brand-700">PPDB</a>
-      <a href="#kontak" class="rounded-2xl px-2 py-2 text-center text-[11px] font-medium text-slate-600 hover:bg-emerald-50 hover:text-brand-700">Kontak</a>
-    </div>
-  </div>
-
+  <!-- Minimal JS: toggle mobile menu, smooth scroll, set year -->
   <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
+    (function(){
+      // Set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
 
-    menuBtn?.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.add("hidden");
+      // Mobile nav toggle
+      const navToggle = document.getElementById('navToggle');
+      const navMobile = document.getElementById('navMobile');
+      navToggle && navToggle.addEventListener('click', function(){
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        if(!expanded){
+          navMobile.style.display = 'flex';
+          navMobile.setAttribute('aria-hidden','false');
+        } else {
+          navMobile.style.display = 'none';
+          navMobile.setAttribute('aria-hidden','true');
+        }
       });
-    });
+
+      // Close mobile menu on link click (improves UX)
+      Array.from(document.querySelectorAll('#navMobile a')).forEach(a=>{
+        a.addEventListener('click', ()=> {
+          navMobile.style.display = 'none';
+          navMobile.setAttribute('aria-hidden','true');
+          navToggle && navToggle.setAttribute('aria-expanded','false');
+        });
+      });
+
+      // Smooth scroll for internal links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const targetId = this.getAttribute('href').slice(1);
+          const target = document.getElementById(targetId);
+          if(target){
+            e.preventDefault();
+            const yOffset = 72; // offset for sticky navbar
+            const y = target.getBoundingClientRect().top + window.pageYOffset - yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        });
+      });
+
+      // Improve image loading: if banner missing, fallback background color
+      const hero = document.querySelector('.hero');
+      const img = new Image();
+      img.src = 'assets/banner.jpg';
+      img.onload = function(){ /* ok */ };
+      img.onerror = function(){ hero.style.background = 'linear-gradient(180deg, rgba(15,81,50,0.95), rgba(15,81,50,0.85))'; };
+    })();
   </script>
 </body>
 </html>
