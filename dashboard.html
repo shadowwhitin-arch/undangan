@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin Pondok</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top, rgba(34, 197, 94, 0.12), transparent 30%),
+        linear-gradient(180deg, #07110b, #0b1710);
+      color: #ecfdf5;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: rgba(10, 20, 14, 0.9);
+      border: 1px solid rgba(34, 197, 94, 0.14);
+      border-radius: 24px;
+      padding: 18px 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.28);
+      margin-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #1f7a3d, #0b3d23);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .brand h1 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .brand p {
+      color: #9fb4a9;
+      font-size: 13px;
+    }
+
+    .logout-btn {
+      border: none;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: rgba(10, 20, 14, 0.9);
+      border: 1px solid rgba(34, 197, 94, 0.14);
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+
+    .hero h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: #a7b7ad;
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: rgba(10, 20, 14, 0.9);
+      border: 1px solid rgba(34, 197, 94, 0.14);
+      border-radius: 22px;
+      padding: 18px;
+      min-height: 120px;
+    }
+
+    .card .label {
+      color: #a7b7ad;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .card .value {
+      font-size: 30px;
+      font-weight: 800;
+      color: #d9fbe4;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+    }
+
+    .panel {
+      background: rgba(10, 20, 14, 0.9);
+      border: 1px solid rgba(34, 197, 94, 0.14);
+      border-radius: 24px;
+      padding: 20px;
+    }
+
+    .panel h3 {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    .menu-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .menu-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #0f1d15;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #eefdf3;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-item span {
+      color: #9fb4a9;
+      font-weight: 400;
+      font-size: 13px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #bbf7d0;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .user-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #0f1d15;
+      color: #d9fbe4;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    @media (max-width: 900px) {
+      .cards,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .logout-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 14px;
+      }
+
+      .hero h2 {
+        font-size: 22px;
+      }
+
+      .card .value {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">☪</div>
+        <div>
+          <h1>Dashboard Admin Pondok</h1>
+          <p>Kelola isi website dari sini</p>
+        </div>
+      </div>
+
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <section class="hero">
+      <h2>Selamat datang, Admin</h2>
+      <p>
+        Halaman ini sudah diproteksi Firebase Auth. Kalau belum login, user akan otomatis diarahkan ke halaman login.
+      </p>
+      <div class="status">🟢 Status: Login aktif</div>
+      <div class="user-box" id="userEmail">Memuat data user...</div>
+    </section>
+
+    <section class="cards">
+      <div class="card">
+        <div class="label">Total Berita</div>
+        <div class="value">12</div>
+      </div>
+      <div class="card">
+        <div class="label">Galeri</div>
+        <div class="value">48</div>
+      </div>
+      <div class="card">
+        <div class="label">Santri</div>
+        <div class="value">320</div>
+      </div>
+      <div class="card">
+        <div class="label">Pengumuman</div>
+        <div class="value">7</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="panel">
+        <h3>Menu Pengelolaan</h3>
+        <div class="menu-list">
+          <div class="menu-item">Kelola Berita <span>Edit / tambah artikel</span></div>
+          <div class="menu-item">Kelola Galeri <span>Upload foto kegiatan</span></div>
+          <div class="menu-item">Kelola Santri <span>Data santri & wali</span></div>
+          <div class="menu-item">Kelola Program <span>Visi, misi, kurikulum</span></div>
+          <div class="menu-item">Kelola PPDB <span>Info pendaftaran</span></div>
+          <div class="menu-item">Kelola Donasi <span>Rekening / QRIS</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Info Login</h3>
+        <p style="color:#a7b7ad; line-height:1.7; font-size:14px;">
+          Dashboard ini baru bagian login dan proteksi akses. Nanti bisa disambungkan ke Firestore untuk CRUD berita, galeri, santri, dan pengumuman.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module">
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    firebaseOnAuthStateChanged(firebaseAuth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        userEmail.textContent = "Login sebagai: " + user.email;
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await firebaseSignOut(firebaseAuth);
+        window.location.href = "login.html";
+      } catch (error) {
+        alert("Logout gagal: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
