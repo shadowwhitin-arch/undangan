@@ -1,280 +1,1320 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hidayatul Uluum Awipari</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem Informasi Ponpes Hidayatul Uluum</title>
+  <meta name="description" content="Sistem Informasi Pondok Pesantren Hidayatul Uluum Awipari" />
+  <style>
+    :root{
+      --green:#0b6b38;
+      --green-dark:#07512b;
+      --green-soft:#eaf6ef;
+      --bg:#f6f8f7;
+      --text:#1d2430;
+      --muted:#67707f;
+      --card:#ffffff;
+      --line:rgba(15, 23, 42, .08);
+      --shadow:0 18px 40px rgba(0,0,0,.08);
+      --radius:22px;
+      --radius-sm:16px;
+      --max:1180px;
+    }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(11,107,56,.08), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbf9 40%, #f5f7f6 100%);
+      overflow-x:hidden;
+    }
 
-body{
-background:#fff;
-color:#222;
-overflow-x:hidden;
-}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
 
-/* HEADER */
-header{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-background:rgba(255,255,255,.95);
-backdrop-filter:blur(10px);
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 25px;
-z-index:1000;
-box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
+    .container{
+      width:min(var(--max), calc(100% - 32px));
+      margin-inline:auto;
+    }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:bold;
-color:#0b6b38;
-font-size:18px;
-}
+    /* Header */
+    .topbar{
+      position:fixed;
+      inset:0 0 auto 0;
+      z-index:1000;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(0,0,0,.05);
+    }
+    .topbar-inner{
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
 
-.logo img{
-width:45px;
-height:45px;
-border-radius:50%;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
 
-.menu-btn{
-font-size:28px;
-cursor:pointer;
-color:#0b6b38;
-}
+    .brand-logo{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      object-fit:cover;
+      background:#edf7ef;
+      border:1px solid var(--line);
+      box-shadow:0 10px 20px rgba(0,0,0,.06);
+      flex:0 0 auto;
+    }
 
-/* SIDEBAR */
-.sidebar{
-position:fixed;
-top:0;
-right:-100%;
-width:280px;
-height:100%;
-background:#fff;
-box-shadow:-5px 0 20px rgba(0,0,0,.1);
-transition:.4s;
-z-index:2000;
-padding:30px;
-}
+    .brand-text{
+      min-width:0;
+      line-height:1.1;
+    }
+    .brand-kicker{
+      display:block;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--green);
+      font-weight:800;
+      margin-bottom:5px;
+    }
+    .brand-title{
+      display:block;
+      font-size:clamp(15px, 2.4vw, 20px);
+      font-weight:800;
+      color:var(--text);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
 
-.sidebar.active{
-right:0;
-}
+    .menu-button{
+      width:48px;
+      height:48px;
+      border:none;
+      border-radius:14px;
+      background:var(--green-soft);
+      color:var(--green);
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      box-shadow:0 10px 18px rgba(11,107,56,.10);
+      transition:.25s ease;
+    }
+    .menu-button:hover{transform:translateY(-1px);background:#ddf1e2}
+    .menu-icon{
+      width:20px;
+      height:14px;
+      position:relative;
+    }
+    .menu-icon span{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:2px;
+      border-radius:2px;
+      background:currentColor;
+    }
+    .menu-icon span:nth-child(1){top:0}
+    .menu-icon span:nth-child(2){top:6px}
+    .menu-icon span:nth-child(3){bottom:0}
 
-.sidebar h2{
-color:#0b6b38;
-margin-bottom:25px;
-}
+    /* Drawer */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(15, 23, 42, .45);
+      opacity:0;
+      pointer-events:none;
+      transition:.25s ease;
+      z-index:1100;
+    }
+    .overlay.active{
+      opacity:1;
+      pointer-events:auto;
+    }
 
-.sidebar a{
-display:block;
-padding:15px 0;
-text-decoration:none;
-color:#333;
-border-bottom:1px solid #eee;
-font-weight:500;
-}
+    .drawer{
+      position:fixed;
+      top:0;
+      right:-100%;
+      width:min(360px, 88vw);
+      height:100vh;
+      background:#fff;
+      z-index:1200;
+      box-shadow:-18px 0 50px rgba(0,0,0,.12);
+      transition:.32s ease;
+      display:flex;
+      flex-direction:column;
+      padding:22px;
+    }
+    .drawer.active{right:0}
 
-.close{
-font-size:28px;
-cursor:pointer;
-float:right;
-}
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:16px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:18px;
+    }
+    .drawer-title{
+      font-weight:900;
+      font-size:18px;
+      color:var(--green);
+    }
+    .drawer-close{
+      border:none;
+      background:var(--bg);
+      color:var(--text);
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:22px;
+      line-height:1;
+    }
 
-/* HERO */
-.hero{
-height:100vh;
-background:url('https://images.unsplash.com/photo-1519491050282-cf00c82424b4') center/cover;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-position:relative;
-}
+    .nav-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:auto;
+      padding-right:2px;
+    }
+    .nav-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px;
+      border-radius:14px;
+      color:var(--text);
+      background:#fff;
+      border:1px solid var(--line);
+      font-weight:700;
+      transition:.22s ease;
+    }
+    .nav-link:hover{
+      transform:translateX(2px);
+      border-color:rgba(11,107,56,.22);
+      background:linear-gradient(90deg, rgba(11,107,56,.06), rgba(11,107,56,.02));
+    }
+    .nav-link small{
+      font-weight:600;
+      color:var(--muted);
+    }
 
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,.45);
-}
+    .portal-box{
+      margin-top:auto;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+    }
+    .portal-card{
+      display:block;
+      padding:16px;
+      border-radius:18px;
+      background:linear-gradient(135deg, var(--green), var(--green-dark));
+      color:#fff;
+      box-shadow:0 18px 30px rgba(11,107,56,.22);
+      text-align:left;
+      transition:.25s ease;
+    }
+    .portal-card:hover{transform:translateY(-2px)}
+    .portal-card strong{
+      display:block;
+      font-size:16px;
+      margin-bottom:5px;
+    }
+    .portal-card span{
+      display:block;
+      font-size:13px;
+      opacity:.9;
+      line-height:1.5;
+    }
 
-.hero-content{
-position:relative;
-z-index:2;
-color:white;
-padding:20px;
-}
+    /* Main */
+    main{
+      padding-top:92px;
+    }
 
-.hero-content h1{
-font-size:42px;
-margin-bottom:15px;
-}
+    .hero{
+      padding:34px 0 22px;
+    }
 
-.hero-content p{
-font-size:18px;
-margin-bottom:25px;
-}
+    .hero-shell{
+      position:relative;
+      overflow:hidden;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(5,43,23,.42), rgba(5,43,23,.64)),
+        url('https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1600&q=80') center/cover;
+      color:#fff;
+      min-height:580px;
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:flex-end;
+    }
 
-.hero-content button{
-padding:14px 28px;
-border:none;
-background:#0b6b38;
-color:white;
-border-radius:30px;
-cursor:pointer;
-font-size:16px;
-}
+    .hero-inner{
+      width:100%;
+      padding:28px;
+      display:grid;
+      gap:22px;
+    }
 
-/* STATS */
-.stats{
-padding:60px 20px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;
-background:#f8faf8;
-}
+    .hero-brand{
+      text-align:center;
+      margin:0 auto;
+      max-width:760px;
+    }
 
-.card{
-background:white;
-padding:25px;
-border-radius:16px;
-text-align:center;
-box-shadow:0 10px 20px rgba(0,0,0,.05);
-}
+    .hero-logo{
+      width:118px;
+      height:118px;
+      border-radius:28px;
+      object-fit:cover;
+      margin:0 auto 18px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:0 16px 30px rgba(0,0,0,.18);
+      backdrop-filter:blur(4px);
+    }
 
-.card h2{
-color:#0b6b38;
-font-size:28px;
-margin-bottom:10px;
-}
+    .hero-kicker{
+      display:inline-block;
+      font-size:12px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      font-weight:900;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.16);
+      margin-bottom:14px;
+    }
 
-/* DONASI */
-.donasi{
-padding:60px 20px;
-text-align:center;
-}
+    .hero-title{
+      margin:0;
+      font-size:clamp(28px, 5vw, 54px);
+      line-height:1.08;
+      letter-spacing:-.03em;
+      text-wrap:balance;
+    }
 
-.donasi h2{
-color:#0b6b38;
-margin-bottom:15px;
-}
+    .hero-subtitle{
+      margin:14px auto 0;
+      font-size:clamp(15px, 2.2vw, 19px);
+      line-height:1.8;
+      color:rgba(255,255,255,.92);
+      max-width:760px;
+    }
 
-.rek{
-background:#f8faf8;
-padding:18px;
-border-radius:15px;
-display:inline-block;
-margin-top:15px;
-font-weight:bold;
-}
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top:18px;
+    }
 
-/* FOOTER */
-footer{
-padding:25px;
-text-align:center;
-background:#0b6b38;
-color:white;
-}
-</style>
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:999px;
+      padding:13px 18px;
+      font-weight:800;
+      transition:.25s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      justify-content:center;
+      min-height:48px;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      background:#fff;
+      color:var(--green-dark);
+      box-shadow:0 14px 26px rgba(0,0,0,.14);
+    }
+    .btn-outline{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.22);
+    }
+
+    .hero-note{
+      display:flex;
+      justify-content:center;
+      margin-top:8px;
+      color:rgba(255,255,255,.86);
+      font-size:13px;
+    }
+
+    /* Sections */
+    section.block{
+      padding:18px 0;
+    }
+
+    .section-card{
+      background:rgba(255,255,255,.86);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius);
+      box-shadow:0 14px 30px rgba(0,0,0,.05);
+      overflow:hidden;
+    }
+
+    .section-head{
+      padding:22px 22px 0;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .section-title{
+      margin:0;
+      font-size:clamp(20px, 3vw, 30px);
+      color:var(--text);
+      letter-spacing:-.02em;
+    }
+
+    .section-subtitle{
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.7;
+      max-width:780px;
+    }
+
+    /* Gallery */
+    .gallery-wrap{
+      padding:20px 22px 22px;
+    }
+
+    .slider{
+      position:relative;
+      overflow:hidden;
+      border-radius:24px;
+      background:#0f172a;
+      min-height:360px;
+      box-shadow:0 20px 35px rgba(0,0,0,.10);
+    }
+
+    .slides{
+      display:flex;
+      width:100%;
+      height:100%;
+      transition:transform .55s ease;
+    }
+
+    .slide{
+      min-width:100%;
+      position:relative;
+      height:360px;
+      isolation:isolate;
+    }
+
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .slide::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.58));
+      z-index:1;
+    }
+
+    .slide-caption{
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:18px;
+      z-index:2;
+      color:#fff;
+      max-width:650px;
+    }
+    .slide-caption h3{
+      margin:0 0 8px;
+      font-size:22px;
+      letter-spacing:-.02em;
+    }
+    .slide-caption p{
+      margin:0;
+      line-height:1.65;
+      color:rgba(255,255,255,.9);
+    }
+
+    .slider-ui{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+
+    .dots{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:none;
+      background:#d6dde0;
+      cursor:pointer;
+      transition:.22s ease;
+    }
+    .dot.active{
+      width:28px;
+      border-radius:999px;
+      background:var(--green);
+    }
+
+    .slider-actions{
+      display:flex;
+      gap:10px;
+    }
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      background:#eef5f0;
+      color:var(--green);
+      font-size:18px;
+      display:grid;
+      place-items:center;
+      transition:.22s ease;
+    }
+    .icon-btn:hover{background:#dff0e5}
+
+    /* Stats */
+    .stats-wrap{
+      padding:22px 22px 24px;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0, 1fr));
+      gap:14px;
+    }
+
+    .stat{
+      padding:20px 16px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      text-align:center;
+      box-shadow:0 10px 20px rgba(0,0,0,.04);
+    }
+
+    .stat-value{
+      font-size:clamp(24px, 4vw, 34px);
+      font-weight:900;
+      color:var(--green);
+      letter-spacing:-.03em;
+      margin-bottom:6px;
+    }
+    .stat-label{
+      color:var(--muted);
+      font-weight:700;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    /* Donation */
+    .donation-wrap{
+      padding:22px 22px 24px;
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:16px;
+    }
+
+    .donation-card{
+      background:linear-gradient(180deg, #ffffff, #f7fbf8);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+    }
+
+    .donation-card h3{
+      margin:0 0 10px;
+      font-size:24px;
+      color:var(--green-dark);
+    }
+    .donation-card p{
+      margin:0;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .donation-list{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .bank-box{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+
+    .bank-box strong{
+      display:block;
+      font-size:15px;
+      margin-bottom:6px;
+    }
+    .bank-box span{
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .donation-side{
+      display:grid;
+      gap:16px;
+    }
+
+    .qris-card{
+      background:linear-gradient(135deg, var(--green), var(--green-dark));
+      color:#fff;
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 18px 35px rgba(11,107,56,.2);
+    }
+
+    .qris-card h4{
+      margin:0 0 8px;
+      font-size:20px;
+    }
+    .qris-card p{
+      margin:0;
+      opacity:.9;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .qris-box{
+      margin-top:16px;
+      height:210px;
+      border-radius:18px;
+      background:rgba(255,255,255,.14);
+      border:1px dashed rgba(255,255,255,.28);
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:18px;
+    }
+    .qris-box small{
+      display:block;
+      opacity:.9;
+      margin-top:8px;
+      line-height:1.5;
+    }
+
+    .donation-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .btn-green{
+      background:var(--green);
+      color:#fff;
+      box-shadow:0 12px 24px rgba(11,107,56,.18);
+    }
+    .btn-green:hover{background:var(--green-dark)}
+    .btn-light{
+      background:#fff;
+      color:var(--green-dark);
+      border:1px solid var(--line);
+    }
+
+    /* Location */
+    .location-wrap{
+      padding:22px 22px 24px;
+      display:grid;
+      grid-template-columns:.95fr 1.05fr;
+      gap:16px;
+    }
+
+    .location-info{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+
+    .location-info h3{
+      margin:0;
+      font-size:24px;
+      color:var(--green-dark);
+    }
+
+    .location-info p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    .location-meta{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .meta-row{
+      padding:14px 14px;
+      background:var(--bg);
+      border:1px solid var(--line);
+      border-radius:16px;
+      color:var(--text);
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    .map-frame{
+      border:0;
+      width:100%;
+      height:100%;
+      min-height:420px;
+      border-radius:22px;
+      box-shadow:0 18px 35px rgba(0,0,0,.08);
+      overflow:hidden;
+      background:#e9f0ec;
+    }
+
+    /* Footer */
+    footer{
+      padding:26px 0 40px;
+    }
+
+    .footer-card{
+      background:#0f1d14;
+      color:#d8e4dd;
+      border-radius:24px;
+      padding:22px;
+      display:grid;
+      gap:12px;
+      text-align:center;
+      box-shadow:var(--shadow);
+    }
+
+    .footer-card strong{
+      color:#fff;
+      font-size:18px;
+    }
+
+    .footer-actions{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .footer-note{
+      color:#a7b4ad;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    /* Section placeholders for menu targets */
+    .placeholder{
+      padding:20px 22px 24px;
+      border-top:1px solid rgba(0,0,0,.04);
+      background:linear-gradient(180deg, rgba(11,107,56,.03), transparent);
+    }
+    .placeholder-box{
+      border-radius:18px;
+      border:1px dashed rgba(11,107,56,.22);
+      padding:18px;
+      color:var(--muted);
+      background:rgba(255,255,255,.72);
+      line-height:1.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .stats-grid{grid-template-columns:repeat(2, minmax(0, 1fr))}
+      .donation-wrap,
+      .location-wrap{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 768px){
+      .topbar-inner{height:72px}
+      .brand-logo{width:46px;height:46px;border-radius:14px}
+      main{padding-top:88px}
+      .hero{padding-top:20px}
+      .hero-shell{min-height:620px;border-radius:22px}
+      .hero-inner{padding:20px}
+      .hero-logo{width:96px;height:96px;border-radius:24px}
+      .slider{min-height:300px}
+      .slide{height:300px}
+      .stats-grid{grid-template-columns:1fr 1fr}
+      .section-head{padding:18px 18px 0}
+      .gallery-wrap,
+      .stats-wrap,
+      .donation-wrap,
+      .location-wrap,
+      .placeholder{padding:18px}
+      .section-card{border-radius:22px}
+    }
+
+    @media (max-width: 520px){
+      .brand-title{max-width:180px}
+      .hero-title{font-size:30px}
+      .hero-subtitle{font-size:15px}
+      .hero-actions{flex-direction:column}
+      .btn{width:100%}
+      .stats-grid{grid-template-columns:1fr}
+      .slider-actions{width:100%; justify-content:space-between}
+      .meta-row{font-size:13px}
+    }
+  </style>
 </head>
 <body>
 
-<header>
-<div class="logo">
-<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-Hidayatul Uluum Awipari
-</div>
-<div class="menu-btn" onclick="openMenu()">☰</div>
-</header>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#beranda" aria-label="Ke beranda">
+        <img
+          class="brand-logo"
+          src="https://via.placeholder.com/200x200.png?text=Logo"
+          alt="Logo Pondok"
+        />
+        <div class="brand-text">
+          <span class="brand-kicker">Sistem Informasi</span>
+          <span class="brand-title">Pondok Pesantren Hidayatul Uluum Awipari</span>
+        </div>
+      </a>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="menu">
-<div class="close" onclick="closeMenu()">×</div>
-<h2>Menu</h2>
+      <button class="menu-button" id="menuOpen" aria-label="Buka menu">
+        <span class="menu-icon" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+  </header>
 
-<a href="#">Beranda</a>
-<a href="#">Profil Pondok</a>
-<a href="#">Visi & Misi</a>
-<a href="#">PPDB</a>
-<a href="#">Berita</a>
-<a href="#">Galeri</a>
-<a href="#">Program</a>
-<a href="#">Santri & Wali</a>
-<a href="#">Donasi</a>
-<a href="#">Kontak</a>
+  <!-- OVERLAY + DRAWER -->
+  <div class="overlay" id="overlay"></div>
 
-</div>
+  <aside class="drawer" id="drawer" aria-label="Menu navigasi">
+    <div class="drawer-head">
+      <div class="drawer-title">Menu</div>
+      <button class="drawer-close" id="menuClose" aria-label="Tutup menu">×</button>
+    </div>
 
-<!-- HERO -->
-<section class="hero">
-<div class="hero-content">
-<h1>Pondok Pesantren Hidayatul Uluum Awipari</h1>
-<p>Membentuk Generasi Qurani Berakhlakul Karimah</p>
-<button>Selengkapnya</button>
-</div>
-</section>
+    <nav class="nav-list">
+      <a class="nav-link" href="#beranda"><span>Beranda</span><small>Home</small></a>
+      <a class="nav-link" href="#profil"><span>Profil Pondok</span><small>Info umum</small></a>
+      <a class="nav-link" href="#visi-misi"><span>Visi & Misi</span><small>Nilai pondok</small></a>
+      <a class="nav-link" href="#program"><span>Program</span><small>Kegiatan</small></a>
+      <a class="nav-link" href="#ppdb"><span>PPDB</span><small>Pendaftaran</small></a>
+      <a class="nav-link" href="#berita"><span>Berita</span><small>Informasi</small></a>
+      <a class="nav-link" href="#galeri"><span>Galeri</span><small>Dokumentasi</small></a>
+      <a class="nav-link" href="#donasi"><span>Donasi</span><small>Dukung pondok</small></a>
+      <a class="nav-link" href="#lokasi"><span>Lokasi</span><small>Maps</small></a>
+      <a class="nav-link" href="#kontak"><span>Kontak</span><small>Hubungi kami</small></a>
+    </nav>
 
-<!-- STATS -->
-<section class="stats">
-<div class="card">
-<h2>1.250+</h2>
-<p>Santri Aktif</p>
-</div>
+    <div class="portal-box">
+      <a class="portal-card" href="https://example.com/login" target="_blank" rel="noopener">
+        <strong>🔐 Login Santri / Wali</strong>
+        <span>Akses portal privat untuk pembayaran, data santri, dan layanan internal.</span>
+      </a>
+    </div>
+  </aside>
 
-<div class="card">
-<h2>85</h2>
-<p>Asatidz</p>
-</div>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="beranda">
+      <div class="container">
+        <div class="hero-shell">
+          <div class="hero-inner">
+            <div class="hero-brand">
+              <img
+                class="hero-logo"
+                src="https://via.placeholder.com/400x400.png?text=Logo+Pondok"
+                alt="Logo Pondok Pesantren"
+              />
+              <span class="hero-kicker">Selamat Datang</span>
+              <h1 class="hero-title">Pondok Pesantren Hidayatul Uluum Awipari</h1>
+              <p class="hero-subtitle">
+                Selamat datang di Sistem Informasi Pondok Pesantren Hidayatul Uluum Awipari.
+                Website ini menjadi pusat informasi resmi untuk pengunjung, calon santri, wali santri,
+                dan masyarakat umum. Data privat tetap dipisahkan di portal khusus agar lebih aman dan rapi.
+              </p>
 
-<div class="card">
-<h2>15.430</h2>
-<p>Visitor</p>
-</div>
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="#galeri">Lihat Galeri</a>
+                <a class="btn btn-outline" href="#lokasi">Lihat Lokasi</a>
+                <a class="btn btn-outline" href="https://example.com/login" target="_blank" rel="noopener">
+                  🔐 Login Santri/Wali
+                </a>
+              </div>
 
-<div class="card">
-<h2>5.280</h2>
-<p>Simpatisan</p>
-</div>
-</section>
+              <div class="hero-note">
+                Foto, logo, dan data nanti bisa kamu ganti kapan saja.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- DONASI -->
-<section class="donasi">
-<h2>Donasi & Dukungan</h2>
-<p>Dukung pengembangan pendidikan pesantren</p>
+    <!-- GALERI -->
+    <section class="block" id="galeri">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Galeri Kegiatan Pondok</h2>
+              <p class="section-subtitle">
+                Foto kegiatan tampil otomatis berganti. Nanti tinggal upload gambar kegiatan pondok,
+                lalu slide akan berjalan sendiri.
+              </p>
+            </div>
+          </div>
 
-<div class="rek">
-BSI : 7123456789<br>
-a/n Yayasan Hidayatul Uluum
-</div>
-</section>
+          <div class="gallery-wrap">
+            <div class="slider" aria-label="Galeri otomatis">
+              <div class="slides" id="slides">
+                <div class="slide">
+                  <img src="https://images.unsplash.com/photo-1516707570262-6c0f1f10e3d2?auto=format&fit=crop&w=1600&q=80" alt="Kegiatan pondok 1">
+                  <div class="slide-caption">
+                    <h3>Ngaji & Tahfidz</h3>
+                    <p>Suasana belajar Al-Qur'an yang khusyuk dan terarah.</p>
+                  </div>
+                </div>
+                <div class="slide">
+                  <img src="https://images.unsplash.com/photo-1522429336375-7f3f3b3b4c15?auto=format&fit=crop&w=1600&q=80" alt="Kegiatan pondok 2">
+                  <div class="slide-caption">
+                    <h3>Muhadharah & Pembinaan</h3>
+                    <p>Kegiatan pembinaan santri untuk melatih percaya diri dan akhlak.</p>
+                  </div>
+                </div>
+                <div class="slide">
+                  <img src="https://images.unsplash.com/photo-1529909746514-1f9f1ed3f8f1?auto=format&fit=crop&w=1600&q=80" alt="Kegiatan pondok 3">
+                  <div class="slide-caption">
+                    <h3>Kegiatan Sosial</h3>
+                    <p>Santri ikut hadir dalam kegiatan bermanfaat untuk lingkungan sekitar.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-<footer>
-© 2026 Hidayatul Uluum Awipari
-</footer>
+            <div class="slider-ui">
+              <div class="dots" id="dots" aria-label="Navigasi slide"></div>
+              <div class="slider-actions">
+                <button class="icon-btn" id="prevBtn" aria-label="Slide sebelumnya">‹</button>
+                <button class="icon-btn" id="nextBtn" aria-label="Slide berikutnya">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-function openMenu(){
-document.getElementById("menu").classList.add("active");
-}
+    <!-- STATS -->
+    <section class="block">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Statistik Pondok</h2>
+              <p class="section-subtitle">
+                Angka-angka ini bisa kamu ubah sesuai data resmi pondok.
+              </p>
+            </div>
+          </div>
 
-function closeMenu(){
-document.getElementById("menu").classList.remove("active");
-}
-</script>
+          <div class="stats-wrap">
+            <div class="stats-grid">
+              <div class="stat">
+                <div class="stat-value" data-count="1250">0</div>
+                <div class="stat-label">Santri Aktif</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" data-count="86">0</div>
+                <div class="stat-label">Asatidz / Ustadz</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" data-count="432">0</div>
+                <div class="stat-label">Alumni</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" data-count="15430">0</div>
+                <div class="stat-label">Visitor</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" data-count="5280">0</div>
+                <div class="stat-label">Simpatisan</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- DONASI -->
+    <section class="block" id="donasi">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Donasi & Dukungan</h2>
+              <p class="section-subtitle">
+                Tempatkan rekening, QRIS, dan ajakan dukungan pondok di sini.
+              </p>
+            </div>
+          </div>
+
+          <div class="donation-wrap">
+            <div class="donation-card">
+              <h3>Rekening Donasi</h3>
+              <p>
+                Mari dukung pendidikan, pembangunan, dan kegiatan pondok pesantren.
+                Informasi rekening di bawah ini bisa kamu ubah sesuai data resmi yayasan.
+              </p>
+
+              <div class="donation-list">
+                <div class="bank-box">
+                  <strong>BSI</strong>
+                  <span>7123 4567 89<br>a.n. Yayasan Hidayatul Uluum</span>
+                </div>
+                <div class="bank-box">
+                  <strong>Bank Mandiri</strong>
+                  <span>1234 5678 9012 3<br>a.n. Pondok Pesantren Hidayatul Uluum</span>
+                </div>
+              </div>
+
+              <div class="donation-actions">
+                <a class="btn btn-green" href="#kontak">Hubungi Admin</a>
+                <a class="btn btn-light" href="#lokasi">Cek Lokasi</a>
+              </div>
+            </div>
+
+            <div class="donation-side">
+              <div class="qris-card">
+                <h4>QRIS / Scan Donasi</h4>
+                <p>Ganti bagian ini dengan gambar QRIS asli saat sudah siap.</p>
+                <div class="qris-box">
+                  <div>
+                    <div style="font-size:28px;font-weight:900;">QRIS</div>
+                    <small>Letakkan gambar QRIS di sini<br/>atau ganti dengan file upload nanti.</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bank-box">
+                <strong>Catatan</strong>
+                <span>
+                  Untuk sistem privat seperti pembayaran santri, data tetap diarahkan ke portal login khusus.
+                  Halaman publik hanya menampilkan informasi umum dan ajakan dukungan.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOKASI -->
+    <section class="block" id="lokasi">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Lokasi Pondok</h2>
+              <p class="section-subtitle">
+                Tempatkan alamat lengkap dan peta lokasi pondok di bagian paling bawah.
+              </p>
+            </div>
+          </div>
+
+          <div class="location-wrap">
+            <div class="location-info">
+              <h3>Alamat Pondok</h3>
+              <p>
+                Silakan ganti alamat ini dengan data asli pondok pesantren.
+                Bagian ini cocok untuk alamat, kontak, dan petunjuk arah.
+              </p>
+
+              <div class="location-meta">
+                <div class="meta-row">
+                  <strong>Alamat:</strong><br>
+                  Jl. Contoh No. 123, Awipari, Tasikmalaya, Jawa Barat
+                </div>
+                <div class="meta-row">
+                  <strong>Telepon / WhatsApp:</strong><br>
+                  08xx-xxxx-xxxx
+                </div>
+                <div class="meta-row">
+                  <strong>Email:</strong><br>
+                  info@hidayatululuum.sch.id
+                </div>
+              </div>
+            </div>
+
+            <iframe
+              class="map-frame"
+              src="https://www.google.com/maps?q=Awipari%20Tasikmalaya&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Lokasi Pondok Pesantren Hidayatul Uluum"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLACEHOLDERS MENU TARGETS -->
+    <section class="block" id="profil">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">Profil Pondok</h2>
+              <p class="section-subtitle">Nanti isi section ini dengan profil pondok, sejarah singkat, dan identitas lembaga.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten profil akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="visi-misi">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">Visi & Misi</h2>
+              <p class="section-subtitle">Bagian ini bisa diisi tujuan, arah pendidikan, dan nilai-nilai pondok.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten visi dan misi akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="program">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">Program</h2>
+              <p class="section-subtitle">Isi dengan program unggulan, kegiatan santri, dan jadwal pembinaan.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten program akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="ppdb">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">PPDB</h2>
+              <p class="section-subtitle">Bagian pendaftaran santri baru bisa diisi syarat, alur, dan formulir pendaftaran.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten PPDB akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="berita">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">Berita</h2>
+              <p class="section-subtitle">Nanti bisa diisi berita kegiatan pondok dan pengumuman umum.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten berita akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="kontak">
+      <div class="container">
+        <div class="section-card placeholder">
+          <div class="section-head" style="padding:0 0 14px;">
+            <div>
+              <h2 class="section-title">Kontak</h2>
+              <p class="section-subtitle">Isi dengan nomor WA admin, email, dan sosial media pondok.</p>
+            </div>
+          </div>
+          <div class="placeholder-box">Konten kontak akan ditambahkan di halaman/section ini.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-card">
+          <strong>Login Santri / Wali</strong>
+          <div>Portal privat dipisahkan dari website publik untuk menjaga data lebih aman.</div>
+          <div class="footer-actions">
+            <a class="btn btn-primary" href="https://example.com/login" target="_blank" rel="noopener">Masuk Portal</a>
+            <a class="btn btn-outline" href="#beranda">Kembali ke Atas</a>
+          </div>
+          <div class="footer-note">
+            © 2026 Sistem Informasi Pondok Pesantren Hidayatul Uluum Awipari. Semua data dapat diubah sesuai kebutuhan.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Drawer menu
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const menuOpen = document.getElementById('menuOpen');
+    const menuClose = document.getElementById('menuClose');
+
+    function openMenu(){
+      drawer.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu(){
+      drawer.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    menuOpen.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Gallery slider autoplay
+    const slides = document.getElementById('slides');
+    const slideItems = slides.querySelectorAll('.slide');
+    const dotsWrap = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let current = 0;
+    let interval = null;
+
+    function renderDots(){
+      dotsWrap.innerHTML = '';
+      slideItems.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (index === current ? ' active' : '');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Buka slide ${index + 1}`);
+        dot.addEventListener('click', () => {
+          goTo(index);
+          resetAuto();
+        });
+        dotsWrap.appendChild(dot);
+      });
+    }
+
+    function updateSlider(){
+      slides.style.transform = `translateX(-${current * 100}%)`;
+      renderDots();
+    }
+
+    function goTo(index){
+      current = (index + slideItems.length) % slideItems.length;
+      updateSlider();
+    }
+
+    function next(){
+      goTo(current + 1);
+    }
+
+    function prev(){
+      goTo(current - 1);
+    }
+
+    function resetAuto(){
+      clearInterval(interval);
+      interval = setInterval(next, 4500);
+    }
+
+    nextBtn.addEventListener('click', () => { next(); resetAuto(); });
+    prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
+
+    updateSlider();
+    interval = setInterval(next, 4500);
+
+    // Auto count stats
+    const counters = document.querySelectorAll('.stat-value');
+    const countDuration = 1600;
+
+    function animateCount(el){
+      const target = +el.dataset.count;
+      const start = 0;
+      const startTime = performance.now();
+
+      function step(now){
+        const progress = Math.min((now - startTime) / countDuration, 1);
+        const value = Math.floor(progress * (target - start) + start);
+        el.textContent = target >= 1000 ? value.toLocaleString('id-ID') : value;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          counters.forEach(animateCount);
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.35 });
+
+    const statsSection = document.querySelector('.stats-wrap');
+    if(statsSection) statsObserver.observe(statsSection);
+  </script>
 </body>
 </html>
