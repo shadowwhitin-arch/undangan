@@ -330,12 +330,16 @@
 
           const card = document.createElement("article");
           card.className = "item-card";
+const img = document.createElement("img");
 
-          const img = document.createElement("img");
-          img.src = data.gambar || "";
-          img.alt = data.judul || label;
-          img.loading = "lazy";
+img.src = data.gambar || "";
+img.alt = data.judul || label;
+img.loading = "lazy";
 
+img.style.width = "100%";
+img.style.height = "200px";
+img.style.objectFit = "cover";
+img.style.display = "block";
           const body = document.createElement("div");
           body.className = "item-body";
 
