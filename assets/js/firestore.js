@@ -1,228 +1,77 @@
-// assets/js/firestore.js
-
 import { db } from "./firebase.js";
 
 import {
   collection,
-  doc,
   onSnapshot,
   query,
   orderBy,
-  limit
+  doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* =========================================================
-   HELPER
-========================================================= */
+/* =========================================
+   UNIVERSAL FEED LOADER
+========================================= */
 
-function formatTanggal(value) {
+function loadFeed(collectionName, containerId) {
 
-  if (!value) return "";
+  const container =
+    document.getElementById(containerId);
 
-  const d =
-    value.toDate
-      ? value.toDate()
-      : new Date(value);
+  if (!container) return;
 
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric"
-  }).format(d);
-}
-
-function safeText(val, fallback = "") {
-  return (val ?? fallback).toString();
-}
-
-/* =========================================================
-   BERITA
-========================================================= */
-
-const beritaGrid =
-  document.querySelector("#berita .placeholder-grid");
-
-const beritaFallback =
-  beritaGrid
-    ? beritaGrid.innerHTML
-    : "";
-
-if (beritaGrid) {
-
-  const beritaRef = query(
-    collection(db, "berita"),
-    orderBy("tanggal", "desc"),
-    limit(4)
+  const q = query(
+    collection(db, collectionName),
+    orderBy("tanggal", "desc")
   );
 
-  onSnapshot(
-    beritaRef,
+  onSnapshot(q, (snap) => {
 
-    (snap) => {
+    container.innerHTML = "";
 
-      if (snap.empty) {
-        beritaGrid.innerHTML = beritaFallback;
-        return;
-      }
+    // kalau kosong → kosong aja
+    if (snap.empty) return;
 
-      beritaGrid.innerHTML = "";
+    snap.forEach((docSnap) => {
 
-      snap.forEach((d) => {
+      const data = docSnap.data();
 
-        const data = d.data();
+      const card =
+      `
+        <article class="news-card">
 
-        const card = document.createElement("div");
-        card.className = "placeholder-card";
+          <img
+            src="${data.gambar || ''}"
+            alt="${data.judul || ''}"
+          >
 
-        const title = document.createElement("strong");
-        title.textContent =
-          safeText(data.judul, "Berita Pondok");
+          <div class="news-body">
+            <h3>${data.judul || 'Untitled'}</h3>
+          </div>
 
-        const isi = document.createElement("div");
+        </article>
+      `;
 
-        isi.style.lineHeight = "1.7";
-
-        isi.textContent =
-          safeText(
-            data.isi,
-            "Isi berita belum tersedia."
-          );
-
-        const tanggal = document.createElement("div");
-
-        tanggal.style.marginTop = "8px";
-        tanggal.style.opacity = "0.82";
-        tanggal.style.fontSize = "12px";
-
-        tanggal.textContent =
-          formatTanggal(data.tanggal);
-
-        card.appendChild(title);
-        card.appendChild(isi);
-
-        if (tanggal.textContent) {
-          card.appendChild(tanggal);
-        }
-
-        beritaGrid.appendChild(card);
-      });
-    },
-
-    () => {
-      beritaGrid.innerHTML = beritaFallback;
-    }
-  );
+      container.innerHTML += card;
+    });
+  });
 }
 
-/* =========================================================
-   GALERI
-========================================================= */
+/* =========================================
+   LOAD SEMUA SECTION
+========================================= */
 
-const slidesEl =
-  document.getElementById("slides");
+loadFeed("galeri", "galeri-container");
 
-const galleryFallback =
-  slidesEl
-    ? slidesEl.innerHTML
-    : "";
+loadFeed("profil", "profil-container");
 
-if (slidesEl) {
+loadFeed("visi-misi", "visi-container");
 
-  const galleryRef = query(
-    collection(db, "galeri"),
-    orderBy("tanggal", "desc"),
-    limit(6)
-  );
+loadFeed("berita", "berita-container");
 
-  onSnapshot(
-    galleryRef,
+loadFeed("kurikulum", "kurikulum-container");
 
-    (snap) => {
+loadFeed("ppdb", "ppdb-container");
 
-      if (snap.empty) {
-
-        slidesEl.innerHTML =
-          galleryFallback;
-
-        document.dispatchEvent(
-          new CustomEvent("gallery:updated")
-        );
-
-        return;
-      }
-
-      slidesEl.innerHTML = "";
-
-      snap.forEach((d) => {
-
-        const data = d.data();
-
-        const slide =
-          document.createElement("div");
-
-        slide.className = "slide";
-
-        const img =
-          document.createElement("img");
-
-        img.src =
-          safeText(data.gambar, "");
-
-        img.alt =
-          safeText(
-            data.judul,
-            "Galeri Pondok"
-          );
-
-        const caption =
-          document.createElement("div");
-
-        caption.className =
-          "slide-caption";
-
-        const h3 =
-          document.createElement("h3");
-
-        h3.textContent =
-          safeText(
-            data.judul,
-            "Galeri Pondok"
-          );
-
-        const p =
-          document.createElement("p");
-
-        p.textContent =
-          safeText(
-            data.deskripsi,
-            "Dokumentasi kegiatan pondok."
-          );
-
-        caption.appendChild(h3);
-        caption.appendChild(p);
-
-        slide.appendChild(img);
-        slide.appendChild(caption);
-
-        slidesEl.appendChild(slide);
-      });
-
-      document.dispatchEvent(
-        new CustomEvent("gallery:updated")
-      );
-    },
-
-    () => {
-
-      slidesEl.innerHTML =
-        galleryFallback;
-
-      document.dispatchEvent(
-        new CustomEvent("gallery:updated")
-      );
-    }
-  );
-}
 
 /* =========================================================
    STATISTIK
