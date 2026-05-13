@@ -298,38 +298,45 @@
     </section>
   </div>
 
-  <script type="module">
-  import { db, storage } from "./assets/js/firebase.js";
-    import {
-      firebaseAuth,
-      firebaseOnAuthStateChanged,
-      firebaseSignOut
-    } from "./assets/js/firebase.js";
+<script type="module">
+  import {
+    auth
+  } from "./assets/js/firebase.js";
 
-    const userEmail = document.getElementById("userEmail");
-    const logoutBtn = document.getElementById("logoutBtn");
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    firebaseOnAuthStateChanged(firebaseAuth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
+  const userEmail = document.getElementById("userEmail");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-      if (userEmail) {
-        userEmail.textContent = "Login sebagai: " + user.email;
-      }
-    });
+  onAuthStateChanged(auth, (user) => {
 
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        try {
-          await firebaseSignOut(firebaseAuth);
-          window.location.href = "login.html";
-        } catch (error) {
-          alert("Logout gagal: " + error.message);
-        }
-      });
+    if (!user) {
+      window.location.href = "login.html";
+      return;
     }
-  </script>
+
+    userEmail.textContent = "Login sebagai: " + user.email;
+
+  });
+
+  logoutBtn.addEventListener("click", async () => {
+
+    try {
+
+      await signOut(auth);
+
+      window.location.href = "login.html";
+
+    } catch (error) {
+
+      alert("Logout gagal: " + error.message);
+
+    }
+
+  });
+</script>
 </body>
 </html>
