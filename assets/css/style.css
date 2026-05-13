@@ -810,7 +810,7 @@ body::before{
     .location-wrap{
       position:relative;
       z-index:1;
-      padding:22px 22px 24px;
+      padding:0;
       display:grid;
       grid-template-columns:1fr;
       gap:16px;
@@ -818,12 +818,12 @@ body::before{
 
   .location-info{
   background:linear-gradient(
-    180deg,
-    rgba(7,45,24,.92),
-    rgba(4,24,13,.96)
+    135deg,
+  #0b6b38
+    #062d18
   );
   border:none;
-  box-shadow:0 12px 30px rgba(0,0,0,.25);
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
 }
 
     .location-info h3{
