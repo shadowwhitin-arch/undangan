@@ -846,7 +846,7 @@
 .location-info{
   width:100%;
   border-radius:30px 30px 0 0;
-  padding:32px 24px;
+  padding:14px 24px;
 
   background:
     linear-gradient(
@@ -886,9 +886,9 @@
     border:none;
     border-radius:0;
     color:#dff5e7;
-    line-height:1.8;
+    line-height:1.6;
     font-size:16px;
-    margin-bottom:16px;
+    margin-bottom:8px;
   }
 
   /* Kalau section alamat punya id="alamat", ini bikin tampilan makin aman */
