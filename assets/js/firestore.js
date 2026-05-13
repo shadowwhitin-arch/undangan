@@ -1,6 +1,6 @@
 // assets/js/firestore.js
 
-import { db } from "../../firebase/firebase.js";
+import { db } from "./firebase.js";
 
 import {
   collection,
