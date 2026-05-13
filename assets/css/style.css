@@ -835,23 +835,27 @@
   .location-wrap{
     position:relative;
     z-index:1;
+    width:100%
     padding:0 0 24px;
     display:grid;
     grid-template-columns:1fr;
     gap:16px;
   }
 
-  .location-info{
-    width:100%;
-    max-width:none;
-    background:linear-gradient(160deg, #0b6b38, #062d18, #03150b);
-    border:none;
-    border-radius:28px;
-    padding:28px;
-    backdrop-filter:none;
-    display:grid;
-    gap:14px;
-    box-shadow:0 18px 40px rgba(0,0,0,.28);
+ .location-info{
+  width:100%;
+  padding:28px;
+  border-radius:28px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8,60,30,.92),
+      rgba(5,25,15,.92)
+    );
+
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 18px 40px rgba(0,0,0,.18);
+
   }
 
   .location-info h3{
