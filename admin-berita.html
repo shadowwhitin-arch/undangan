@@ -235,221 +235,203 @@
     </div>
   </div>
 
- <script type="module">
+<script type="module">
+  import { db } from "./assets/js/firebase.js";
+  import { uploadToCloudinary } from "./assets/js/cloudinary.js";
 
-import { db, storage } from "./assets/js/firebase.js";
+  import {
+    collection,
+    addDoc,
+    deleteDoc,
+    doc,
+    query,
+    orderBy,
+    onSnapshot,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
-  collection,
-  addDoc,
-  deleteDoc,
-  doc,
-  query,
-  orderBy,
-  onSnapshot,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  const kategoriEl = document.getElementById("kategori");
+  const judulInput = document.getElementById("judul");
+  const gambarInput = document.getElementById("gambar");
+  const saveBtn = document.getElementById("saveBtn");
+  const kontenList = document.getElementById("kontenList");
+  const currentInfo = document.getElementById("currentInfo");
 
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+  const LABELS = {
+    berita: "Berita",
+    galeri: "Galeri",
+    profil: "Profil",
+    "visi-misi": "Visi Misi",
+    kurikulum: "Kurikulum",
+    ppdb: "PPDB"
+  };
 
-    const kategoriEl = document.getElementById("kategori");
-    const judulInput = document.getElementById("judul");
-    const gambarInput = document.getElementById("gambar");
-    const saveBtn = document.getElementById("saveBtn");
-    const kontenList = document.getElementById("kontenList");
-    const currentInfo = document.getElementById("currentInfo");
+  let unsubscribeCurrent = null;
 
-    const LABELS = {
-      berita: "Berita",
-      galeri: "Galeri",
-      profil: "Profil",
-      "visi-misi": "Visi Misi",
-      kurikulum: "Kurikulum",
-      ppdb: "PPDB"
-    };
+  function escapeHtml(text) {
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
 
-    let unsubscribeCurrent = null;
+  function formatTanggal(value) {
+    if (!value) return "";
+    const d = value.toDate ? value.toDate() : new Date(value);
+    if (Number.isNaN(d.getTime())) return "";
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }).format(d);
+  }
 
-    function escapeHtml(text) {
-      return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+  function renderEmptyState(label) {
+    kontenList.innerHTML = `
+      <div class="empty-state" style="grid-column:1 / -1;">
+        Belum ada data pada <b>${label}</b>.
+        <br>
+        Upload gambar dan judul dari form di atas, nanti akan muncul otomatis di sini.
+      </div>
+    `;
+  }
+
+  function startListener() {
+    const kategori = kategoriEl.value;
+    const label = LABELS[kategori] || kategori;
+
+    currentInfo.textContent = `Menampilkan: ${label}`;
+    kontenList.innerHTML = "";
+
+    if (unsubscribeCurrent) {
+      unsubscribeCurrent();
+      unsubscribeCurrent = null;
     }
 
-    function formatTanggal(value) {
-      if (!value) return "";
-      const d = value.toDate ? value.toDate() : new Date(value);
-      if (Number.isNaN(d.getTime())) return "";
-      return new Intl.DateTimeFormat("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-      }).format(d);
-    }
+    const q = query(
+      collection(db, kategori),
+      orderBy("tanggal", "desc")
+    );
 
-    function renderEmptyState(label) {
-      kontenList.innerHTML = `
-        <div class="empty-state" style="grid-column:1 / -1;">
-          Belum ada data pada <b>${label}</b>.
-          <br>
-          Upload gambar dan judul dari form di atas, nanti akan muncul otomatis di sini.
-        </div>
-      `;
-    }
+    unsubscribeCurrent = onSnapshot(
+      q,
+      (snap) => {
+        kontenList.innerHTML = "";
 
-    async function uploadGambar(folder, file) {
-      const fileName = `${Date.now()}-${file.name}`;
-      const storagePath = `${folder}/${fileName}`;
-      const storageRef = ref(storage, storagePath);
+        if (snap.empty) {
+          renderEmptyState(label);
+          return;
+        }
 
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+        snap.forEach((docSnap) => {
+          const data = docSnap.data();
 
-      return { downloadURL, storagePath };
-    }
+          const card = document.createElement("article");
+          card.className = "item-card";
 
-    function startListener() {
-      const kategori = kategoriEl.value;
-      const label = LABELS[kategori] || kategori;
+          const img = document.createElement("img");
+          img.src = data.gambar || "";
+          img.alt = data.judul || label;
+          img.loading = "lazy";
 
-      currentInfo.textContent = `Menampilkan: ${label}`;
-      kontenList.innerHTML = "";
+          const body = document.createElement("div");
+          body.className = "item-body";
 
-      if (unsubscribeCurrent) {
-        unsubscribeCurrent();
-        unsubscribeCurrent = null;
-      }
+          const title = document.createElement("h3");
+          title.innerHTML = escapeHtml(data.judul || "Tanpa Judul");
 
-      const q = query(
-        collection(db, kategori),
-        orderBy("tanggal", "desc")
-      );
+          const tanggal = document.createElement("div");
+          tanggal.style.marginBottom = "10px";
+          tanggal.style.fontSize = "12px";
+          tanggal.style.opacity = "0.8";
+          tanggal.textContent = formatTanggal(data.tanggal);
 
-      unsubscribeCurrent = onSnapshot(
-        q,
-        (snap) => {
-          kontenList.innerHTML = "";
+          const actions = document.createElement("div");
+          actions.className = "item-actions";
 
-          if (snap.empty) {
-            renderEmptyState(label);
-            return;
+          const delBtn = document.createElement("button");
+          delBtn.className = "delete-btn";
+          delBtn.textContent = "Hapus";
+
+          delBtn.addEventListener("click", async () => {
+            const ok = confirm(`Yakin mau hapus data ${label} ini?`);
+            if (!ok) return;
+
+            try {
+              // Hapus data dari Firestore saja
+              // Kalau mau hapus file Cloudinary juga, perlu endpoint backend khusus
+              await deleteDoc(doc(db, kategori, docSnap.id));
+              alert("Data berhasil dihapus.");
+            } catch (error) {
+              console.error(error);
+              alert("Gagal menghapus data.");
+            }
+          });
+
+          body.appendChild(title);
+
+          if (tanggal.textContent) {
+            body.appendChild(tanggal);
           }
 
-          snap.forEach((docSnap) => {
-            const data = docSnap.data();
+          actions.appendChild(delBtn);
+          body.appendChild(actions);
 
-            const card = document.createElement("article");
-            card.className = "item-card";
+          card.appendChild(img);
+          card.appendChild(body);
 
-            const img = document.createElement("img");
-            img.src = data.gambar || "";
-            img.alt = data.judul || label;
-            img.loading = "lazy";
+          kontenList.appendChild(card);
+        });
+      },
+      () => {
+        renderEmptyState(label);
+      }
+    );
+  }
 
-            const body = document.createElement("div");
-            body.className = "item-body";
+  kategoriEl.addEventListener("change", startListener);
 
-            const title = document.createElement("h3");
-            title.innerHTML = escapeHtml(data.judul || "Tanpa Judul");
+  saveBtn.addEventListener("click", async () => {
+    const kategori = kategoriEl.value;
+    const judul = judulInput.value.trim();
+    const file = gambarInput.files[0];
 
-            const tanggal = document.createElement("div");
-            tanggal.style.marginBottom = "10px";
-            tanggal.style.fontSize = "12px";
-            tanggal.style.opacity = "0.8";
-            tanggal.textContent = formatTanggal(data.tanggal);
-
-            const actions = document.createElement("div");
-            actions.className = "item-actions";
-
-            const delBtn = document.createElement("button");
-            delBtn.className = "delete-btn";
-            delBtn.textContent = "Hapus";
-
-            delBtn.addEventListener("click", async () => {
-              const ok = confirm(`Yakin mau hapus data ${label} ini?`);
-              if (!ok) return;
-
-              try {
-                if (data.storagePath) {
-                  await deleteObject(ref(storage, data.storagePath));
-                }
-
-                await deleteDoc(doc(db, kategori, docSnap.id));
-                alert("Data berhasil dihapus.");
-              } catch (error) {
-                console.error(error);
-                alert("Gagal menghapus data.");
-              }
-            });
-
-            body.appendChild(title);
-
-            if (tanggal.textContent) {
-              body.appendChild(tanggal);
-            }
-
-            actions.appendChild(delBtn);
-            body.appendChild(actions);
-
-            card.appendChild(img);
-            card.appendChild(body);
-
-            kontenList.appendChild(card);
-          });
-        },
-        () => {
-          renderEmptyState(label);
-        }
-      );
+    if (!judul || !file) {
+      alert("Judul dan gambar wajib diisi.");
+      return;
     }
 
-    kategoriEl.addEventListener("change", startListener);
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Menyimpan...";
 
-    saveBtn.addEventListener("click", async () => {
-      const kategori = kategoriEl.value;
-      const judul = judulInput.value.trim();
-      const file = gambarInput.files[0];
+    try {
+      const { downloadURL, publicId } = await uploadToCloudinary(kategori, file);
 
-      if (!judul || !file) {
-        alert("Judul dan gambar wajib diisi.");
-        return;
-      }
+      await addDoc(collection(db, kategori), {
+        judul: judul,
+        gambar: downloadURL,
+        publicId: publicId,
+        tanggal: serverTimestamp()
+      });
 
-      saveBtn.disabled = true;
-      saveBtn.textContent = "Menyimpan...";
+      judulInput.value = "";
+      gambarInput.value = "";
 
-      try {
-        const { downloadURL, storagePath } = await uploadGambar(kategori, file);
+      alert("Data berhasil disimpan.");
+    } catch (error) {
+      console.error(error);
+      alert("Gagal menyimpan data.");
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Simpan Konten";
+    }
+  });
 
-        await addDoc(collection(db, kategori), {
-          judul: judul,
-          gambar: downloadURL,
-          storagePath: storagePath,
-          tanggal: serverTimestamp()
-        });
-
-        judulInput.value = "";
-        gambarInput.value = "";
-
-        alert("Data berhasil disimpan.");
-      } catch (error) {
-        console.error(error);
-        alert("Gagal menyimpan data.");
-      } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "Simpan Konten";
-      }
-    });
-
-    startListener();
-  </script>
-  <script src="assets/js/cloudinary.js"></script>
+  startListener();
+</script>
+  
+  <assets/js/cloudinary.js"></script>
 </body>
 </html>
