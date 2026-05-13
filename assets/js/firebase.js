@@ -1,5 +1,3 @@
-// assets/js/firebase.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -13,7 +11,9 @@ import {
   getFirestore
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import {
+  getStorage
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 /* FIREBASE CONFIG */
 const firebaseConfig = {
@@ -36,8 +36,21 @@ const auth = getAuth(app);
 /* FIRESTORE */
 const db = getFirestore(app);
 
+/* STORAGE */
+const storage = getStorage(app);
+
 /* EXPORT */
-export { app, auth, db };
+export {
+  app,
+  auth,
+  db,
+  storage,
+
+  auth as firebaseAuth,
+  signInWithEmailAndPassword as firebaseSignIn,
+  onAuthStateChanged as firebaseOnAuthStateChanged,
+  signOut as firebaseSignOut
+};
 
 /* OPTIONAL GLOBAL */
 window.firebaseAuth = auth;
