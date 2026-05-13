@@ -8,7 +8,7 @@ export async function uploadToCloudinary(folder, file) {
 
   formData.append(
     "upload_preset",
-    "pondok-upload"
+    "admin_upload"
   );
 
   if (folder) {
