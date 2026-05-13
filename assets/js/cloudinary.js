@@ -1,6 +1,6 @@
-async function uploadImage() {
-  const file =
-    document.getElementById("imageInput").files[0];
+// assets/js/cloudinary.js
+
+export async function uploadToCloudinary(folder, file) {
 
   const formData = new FormData();
 
@@ -8,8 +8,12 @@ async function uploadImage() {
 
   formData.append(
     "upload_preset",
-    "pondok_upload"
+    "pondok-upload"
   );
+
+  if (folder) {
+    formData.append("folder", folder);
+  }
 
   const response = await fetch(
     "https://api.cloudinary.com/v1_1/dntmeiqhg/image/upload",
@@ -21,5 +25,15 @@ async function uploadImage() {
 
   const data = await response.json();
 
-  console.log(data.secure_url);
+  if (!response.ok) {
+    throw new Error(
+      data?.error?.message ||
+      "Upload gagal"
+    );
+  }
+
+  return {
+    downloadURL: data.secure_url,
+    publicId: data.public_id,
+  };
 }
