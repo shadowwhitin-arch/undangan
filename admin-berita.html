@@ -332,6 +332,22 @@
           card.className = "item-card";
 const img = document.createElement("img");
 
+console.log(data.gambar);
+
+img.src = String(data.gambar).trim();
+
+img.alt = data.judul || label;
+
+img.loading = "lazy";
+
+img.onload = () => {
+  console.log("Gambar berhasil tampil");
+};
+
+img.onerror = () => {
+  console.log("Gagal load gambar");
+};
+
 img.src = data.gambar || "";
 img.alt = data.judul || label;
 img.loading = "lazy";
