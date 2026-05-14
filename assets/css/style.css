@@ -479,9 +479,13 @@ section.block{
   font-size:15px;
 }
 
-/* Footer */
+/* FOOTER FULL WIDTH */
 footer{
-  padding:26px 0 40px;
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  padding:0;
 }
 
 .footer-card{
@@ -495,6 +499,8 @@ footer{
   box-shadow:var(--shadow);
   border:none;
   backdrop-filter:none;
+  width:100%;
+  max-width:100%;
 }
 
 .footer-card strong{
