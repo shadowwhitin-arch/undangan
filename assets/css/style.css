@@ -633,3 +633,63 @@ footer{
     padding-top:62px;
   }
 }
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
+
+.lightbox.active{
+  display:flex;
+}
+
+.lightbox img{
+  max-width:90%;
+  max-height:90%;
+  object-fit:contain;
+  animation: zoomIn .2s ease;
+}
+
+@keyframes zoomIn{
+  from{
+    transform:scale(.9);
+    opacity:.4;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+/* tombol navigasi */
+.lightbox button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,.12);
+  border:none;
+  color:#fff;
+  font-size:28px;
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+#prevImg{left:16px}
+#nextImg{right:16px}
+
+/* close button */
+#closeLightbox{
+  position:absolute;
+  top:16px;
+  right:16px;
+  font-size:32px;
+  color:#fff;
+  cursor:pointer;
+}
