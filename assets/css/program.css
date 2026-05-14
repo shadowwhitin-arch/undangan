@@ -1,1 +1,28 @@
+.program-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px, 1fr));
+ 
+  gap:6px;
+  
+}
 
+.program-card{
+  position:relative;
+  aspect-ratio:9 / 16;
+  overflow:hidden;
+  border-radius:10px;
+  background:#000;
+  cursor:pointer;
+}
+
+.program-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.25s ease;
+}
+
+.program-card:hover img{
+  transform:scale(1.08);
+}
