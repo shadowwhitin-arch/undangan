@@ -548,3 +548,39 @@
     height:220px;
   }
 }
+
+/* FULL WIDTH FIX */
+.hero,
+.hero-shell,
+.gallery-wrap,
+.slider,
+.slides,
+.slide,
+.location-full,
+.location-wrap{
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+}
+
+body{
+  overflow-x:hidden;
+}
+
+@media (max-width:768px){
+
+  .hero-inner,
+  .content-wrap,
+  .stats-wrap{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .slider,
+  .hero-shell{
+    border-radius:0;
+  }
+
+}
+
