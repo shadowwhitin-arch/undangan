@@ -1299,7 +1299,7 @@
   transform:scale(1.08);
 }
 @media (max-width: 360px){
-  .news-grid{ grid-template-columns: repeat(2, 1fr); }
+  .news-grid{ grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (min-width: 361px) and (max-width: 768px){
