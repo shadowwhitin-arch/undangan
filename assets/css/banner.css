@@ -7,7 +7,7 @@
 }
 
 .hero-banner{
-  position:relative;
+  position:absolute;
   width:100%;
   aspect-ratio:16/9;
 
