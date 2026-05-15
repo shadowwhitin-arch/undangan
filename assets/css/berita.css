@@ -1,28 +1,39 @@
+/* SECTION */
+.berita{
+  width:100%;
+  padding:18px 0;
+}
+
+/* GRID */
 .berita-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(120px, 1fr));
- 
-  gap:6px;
-  
+
+  grid-template-columns:repeat(3, 1fr);
+
+  gap:8px;
 }
 
-.berita-card{
-  position:relative;
-  aspect-ratio:9 / 16;
-  overflow:hidden;
-  border-radius:10px;
-  background:#000;
-  cursor:pointer;
-}
-
-.berita-card img{
+/* IMAGE */
+.berita-grid img{
   width:100%;
-  height:100%;
+
+  aspect-ratio:9/16;
+
   object-fit:cover;
+
+  border-radius:16px;
+
   display:block;
+
   transition:.25s ease;
 }
 
-.berita-card:hover img{
-  transform:scale(1.08);
+/* LAPTOP / PC */
+@media (min-width:900px){
+
+  .berita-grid{
+    grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+  }
+
 }
