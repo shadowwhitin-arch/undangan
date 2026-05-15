@@ -1,22 +1,28 @@
-.profil{
-  padding:20px 0;
-}
-
 .profil-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
-
-  gap:8px;
+  grid-template-columns:repeat(auto-fit,minmax(120px, 1fr));
+ 
+  gap:6px;
+  
 }
 
-.profil-grid img{
+.profil-card{
+  position:relative;
+  aspect-ratio:9 / 16;
+  overflow:hidden;
+  border-radius:10px;
+  background:#000;
+  cursor:pointer;
+}
+
+.profil-card img{
   width:100%;
-
-  aspect-ratio:9/16;
-
+  height:100%;
   object-fit:cover;
-
-  border-radius:16px;
-
   display:block;
+  transition:.25s ease;
+}
+
+.ppdb-card:hover img{
+  transform:scale(1.08);
 }
