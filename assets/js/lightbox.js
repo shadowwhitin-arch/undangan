@@ -6,6 +6,7 @@ const prevImg = document.getElementById("prevImg");
 const nextImg = document.getElementById("nextImg");
 const closeBtn = document.getElementById("closeLightbox");
 
+
 let images = [];
 let currentIndex = 0;
 
