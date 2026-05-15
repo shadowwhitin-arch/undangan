@@ -265,44 +265,65 @@
   // ==========================================
   // FITUR 1: UPLOAD KE CLOUDINARY & SIMPAN KE FIREBASE
   // ==========================================
-  btnSave.addEventListener('click', async () => {
-    const file = inputGambar.files[0];
-    const judul = inputJudul.value;
-    const kategori = inputKategori.value; // Nilai ini: berita, galeri, dll.
+btnSave.addEventListener('click', async () => {
+  const file = inputGambar.files[0];
+  const judul = inputJudul.value;
+  const kategori = inputKategori.value;
 
-    // Validasi sederhana
-    if (!file || !judul) {
-      return alert("Judul dan gambar wajib diisi!");
+  if (!file || !judul) return alert("Isi judul dan pilih gambar!");
+
+  try {
+    btnSave.innerText = "Proses...";
+    btnSave.disabled = true;
+
+    // 1. SIAPKAN FORM DATA (Urutan berpengaruh di beberapa browser)
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'admin_upload'); // Pastikan ini "Unsigned" di Cloudinary
+
+    console.log("Mencoba upload ke Cloudinary...");
+
+    // 2. FETCH KE CLOUDINARY
+    const cloudResponse = await fetch('https://api.cloudinary.com/v1_1/dntmeiqhg/image/upload', {
+      method: 'POST',
+      body: formData
+    });
+
+    const cloudData = await cloudResponse.json();
+    console.log("Hasil Respon Cloudinary:", cloudData); // Cek apakah muncul secure_url di sini
+
+    if (!cloudData.secure_url) {
+      console.error("Gagal dapat URL Cloudinary. Pesan:", cloudData.error?.message);
+      alert("Cloudinary Gagal: " + (cloudData.error?.message || "Cek Koneksi"));
+      btnSave.innerText = "Simpan Konten";
+      btnSave.disabled = false;
+      return;
     }
 
-    try {
-      // Ubah status tombol
-      btnSave.innerText = "Sedang Mengupload...";
-      btnSave.disabled = true;
+    const URLCloudinary = cloudData.secure_url;
+    console.log("URL Berhasil Didapat:", URLCloudinary);
 
-      // --- A: Upload ke Cloudinary ---
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'admin_upload'); // Preset kamu
-      formData.append('cloud_name', 'dntmeiqhg');       // Cloud Name kamu
+    // 3. SIMPAN KE FIREBASE
+    console.log("Menyimpan ke Firebase di koleksi:", kategori);
+    await addDoc(collection(db, kategori), {
+      title: judul,
+      image_url: URLCloudinary,
+      createdAt: serverTimestamp()
+    });
 
-      const cloudResponse = await fetch('https://api.cloudinary.com/v1_1/dntmeiqhg/image/upload', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const cloudData = await cloudResponse.json();
-      const URLCloudinary = cloudData.secure_url;
+    alert("BERHASIL! Data sudah masuk Firebase.");
+    inputJudul.value = "";
+    inputGambar.value = "";
+    btnSave.innerText = "Simpan Konten";
+    btnSave.disabled = false;
 
-      // --- B: Simpan ke Firebase ---
-      // collection(db, kategori) artinya gambar akan disimpan ke folder 'berita', 'galeri', dll sesuai pilihan dropdown
-      await addDoc(collection(db, kategori), {
-        title: judul,
-        image_url: URLCloudinary,
-        createdAt: serverTimestamp()
-      });
-
-      alert("Selesai! Konten berhasil ditambahkan.");
+  } catch (error) {
+    console.error("Error Total:", error);
+    alert("Ada masalah teknis, cek Console F12");
+    btnSave.innerText = "Simpan Konten";
+    btnSave.disabled = false;
+  }
+});
       
       // Bersihkan form setelah sukses
       inputJudul.value = "";
