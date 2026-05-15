@@ -1,25 +1,19 @@
 .hero{
   width:100%;
-  padding:18px;
+  padding:0px;
 }
 
 .hero-shell{
   width:100%;
-  max-width:1200px;
-  margin:0 auto;
-
   min-height:180px;
-  padding:20px 18px;
 
-  border-radius:28px;
-  position:relative;
-  overflow:hidden;
+  border-radius:0 0 34px 34px;
+
+  padding:20px;
 
   background:rgba(0,0,0,.38);
   backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
 }
-
 .hero-shell::before{
   content:none;
 }
