@@ -6,12 +6,12 @@
 
 .stats-grid{
   display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
+  grid-template-columns:repeat(2, 1fr));
   gap:10px;
 }
 
 .stat{
-  padding:18px 8px;
+  padding:16px 8px;
   background:linear-gradient(135deg, #0b6b38, #062d18);
   border:none;
   border-radius:18px;
