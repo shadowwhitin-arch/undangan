@@ -475,7 +475,7 @@ section.block{
 
 .placeholder-card strong{
   display:block;
-  color:#fff;
+  color:transfarent;
   margin-bottom:6px;
   font-size:15px;
 }
@@ -531,7 +531,8 @@ footer{
   #donasi .section-card{
   background: transfarent !important;
   border:none  !important;
-  box-shadow: none !important;
+  box-shadow:none !important;
+  backdrop-filter: none  !important;
 }
 
 }
