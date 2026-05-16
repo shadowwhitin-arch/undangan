@@ -26,11 +26,11 @@ html{
 body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  color:#;
+  color:#fff;
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
-  background:;
+  background:#fff;
 }
 
 body::before{
