@@ -321,7 +321,7 @@ main{
   backdrop-filter:blur(8px);
 }
 
-.btn-green{
+/* .btn-green{
   background:linear-gradient(135deg, #1b8d50, #0b6b38);
   color:#fff;
   box-shadow:0 12px 24px rgba(11,107,56,.18);
@@ -335,7 +335,7 @@ main{
   background:rgba(255,255,255,.10);
   color:#fff;
   border:1px solid rgba(255,255,255,.12);
-}
+} */
 
 /* Sections */
 section.block{
