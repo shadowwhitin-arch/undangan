@@ -115,10 +115,7 @@
       </div>
     </div>
 
-    <div class="galery-grid" id="galery-container">
-     <div id="galery">
-      <p>memuat gambar...</p>
-     </div>
+   
 
       <!-- CARD 1 -->
       <article class="news-card">
@@ -520,10 +517,6 @@
                   </div>
                 </div>
               </div>
-
-              <div class="bank-box">
-                <strong>Catatan</strong>
-                <span>
                  
                 </span>
               </div>
@@ -559,45 +552,9 @@
 <script src="assets/js/navigation.js"></script>
 <script src="assets/js/lightbox.js"></script>
 <script src="assets/js/banner.js"></script>
- <script src="assets/js/cloudinary.js"></script>
+ <!-- <script src="assets/js/cloudinary.js"></script> -->
 
-<script type="module">
-  // 1. Import database dari file firebase.js kamu (sesuaikan path foldernya jika berbeda)
-  import { db } from "./asset/js/firebase.js"; 
-  
-  // 2. Import fungsi Firebase yang dibutuhkan untuk mengambil data
-  import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.x/firebase-firestore.js";
 
-  // 3. Ambil elemen HTML kontainer tadi
-  const galleryContainer = document.getElementById('gallery');
-
-  // 4. Buat query ke koleksi tempat Admin menyimpan data (misal nama koleksinya "posts")
-  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-
-  // 5. Jalankan fungsi otomatis (Real-time listener)
-  onSnapshot(q, (snapshot) => {
-    galleryContainer.innerHTML = ""; // Bersihkan tulisan "Memuat gambar..."
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      // Buat struktur HTML untuk menampilkan gambar
-      // Catatan: sesuaikan 'data.image_url' dengan nama field URL Cloudinary di Firebase kamu
-      const imgElement = `
-        <div class="image-card" style="margin-bottom: 20px;">
-          <img src="${data.image_url}" alt="Gambar" style="max-width: 100%; border-radius: 8px;">
-        </div>
-      `;
-
-      // Masukkan ke dalam kontainer
-      galleryContainer.innerHTML += imgElement;
-    });
-
-    if (snapshot.empty) {
-      galleryContainer.innerHTML = "<p>Belum ada gambar yang diupload.</p>";
-    }
-  });
-</script>
  
 </body>
 </html>
